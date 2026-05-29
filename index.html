@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quantum Business Advisors — Consultoría financiera</title>
+<style>
+  :root{
+    --ink:#1a1a1a;
+    --ink-soft:#5a5f63;
+    --cyan:#0D9ED9;
+    --cyan-deep:#0876a6;
+    --navy:#0a2c3d;
+    --line:#e3e5e8;
+    --bg-gray:#f4f5f6;
+    --maxw:1280px;
+    --font:"Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}
+
+  /* TOP BAR */
+  .topbar{background:var(--ink);color:#fff;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+  .topbar .wrap{display:flex;justify-content:flex-end;gap:26px;height:34px;align-items:center}
+  .topbar a{opacity:.7;transition:opacity .2s}
+  .topbar a:hover{opacity:1}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+  nav .logo{height:34px}
+  .menu{display:flex;gap:34px;list-style:none;align-items:center}
+  .menu>li>a{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:6px 0;border-bottom:2px solid transparent;transition:border-color .2s,color .2s}
+  .menu>li>a:hover{border-color:var(--cyan);color:var(--cyan)}
+  .nav-cta{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--cyan);padding:13px 22px;transition:background .2s}
+  .nav-cta:hover{background:var(--cyan-deep)}
+  .burger{display:none;font-size:24px}
+
+  /* HERO full-bleed */
+  .hero{position:relative;height:620px;display:flex;align-items:flex-end;color:#fff;overflow:hidden}
+  .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .hero .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,20,28,.86) 0%,rgba(10,20,28,.55) 45%,rgba(10,20,28,.15) 100%)}
+  .hero .wrap{position:relative;z-index:2;padding-bottom:70px;width:100%}
+  .hero .eyebrow{color:#7fd3f0;margin-bottom:18px;display:block}
+  .hero h1{font-size:clamp(38px,5.4vw,64px);font-weight:700;line-height:1.06;letter-spacing:-.02em;max-width:18ch;margin-bottom:22px}
+  .hero p{font-size:clamp(17px,1.8vw,20px);font-weight:300;max-width:52ch;margin-bottom:30px;opacity:.92}
+  .btn{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:15px 26px;transition:background .2s,color .2s}
+  .btn-solid{background:var(--cyan);color:#fff}
+  .btn-solid:hover{background:#fff;color:var(--ink)}
+  .btn-outline{border:1px solid rgba(255,255,255,.6);color:#fff}
+  .btn-outline:hover{background:#fff;color:var(--ink)}
+  .hero .btns{display:flex;gap:14px;flex-wrap:wrap}
+
+  /* INTRO statement */
+  .statement{padding:96px 0}
+  .statement .wrap{max-width:980px}
+  .statement h2{font-size:clamp(28px,3.6vw,42px);font-weight:300;line-height:1.28;letter-spacing:-.01em}
+  .statement h2 b{font-weight:700}
+  .statement .more{display:inline-block;margin-top:30px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);border-bottom:2px solid var(--cyan);padding-bottom:4px}
+
+  /* INSIGHTS / SERVICES card grid */
+  .sec-label{display:flex;align-items:baseline;justify-content:space-between;border-top:2px solid var(--ink);padding-top:18px;margin-bottom:34px}
+  .sec-label h3{font-size:26px;font-weight:700;letter-spacing:-.01em}
+  .sec-label a{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line)}
+  .insight{background:#fff;display:flex;flex-direction:column;cursor:pointer}
+  .insight .ph{aspect-ratio:16/10;overflow:hidden;background:var(--bg-gray)}
+  .insight .ph img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .insight:hover .ph img{transform:scale(1.05)}
+  .insight .body{padding:26px 28px 34px}
+  .insight .cat{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;display:block}
+  .insight h4{font-size:21px;font-weight:700;line-height:1.25;letter-spacing:-.01em;margin-bottom:10px}
+  .insight p{font-size:15px;color:var(--ink-soft);font-weight:300;line-height:1.55}
+  .insight .arrow{margin-top:18px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+  .insight:hover .arrow{color:var(--cyan)}
+
+  .block{padding:90px 0}
+  .gray{background:var(--bg-gray)}
+
+  /* FEATURE split with image */
+  .feature{display:grid;grid-template-columns:1.05fr .95fr;min-height:480px}
+  .feature .img{background-size:cover;background-position:center}
+  .feature .txt{background:var(--navy);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:72px 64px}
+  .feature .txt .eyebrow{color:#7fd3f0;margin-bottom:18px}
+  .feature .txt h3{font-size:clamp(28px,3.2vw,38px);font-weight:700;line-height:1.12;letter-spacing:-.01em;margin-bottom:20px}
+  .feature .txt ul{list-style:none;display:flex;flex-direction:column;gap:16px;margin-bottom:30px}
+  .feature .txt li{display:flex;gap:14px;font-size:16px;font-weight:300;align-items:flex-start}
+  .feature .txt li b{color:var(--cyan);font-weight:700;flex:0 0 auto}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:left}
+  .stats .n{font-size:clamp(42px,5vw,60px);font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--ink)}
+  .stats .n span{color:var(--cyan)}
+  .stats .l{font-size:14px;color:var(--ink-soft);margin-top:12px;font-weight:300;max-width:22ch}
+  .stats .item{border-top:3px solid var(--cyan);padding-top:20px}
+
+  /* CTA strip */
+  .ctastrip{background:var(--ink);color:#fff;padding:80px 0}
+  .ctastrip .wrap{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .ctastrip h2{font-size:clamp(28px,3.4vw,40px);font-weight:700;letter-spacing:-.01em;max-width:20ch}
+  .ctastrip p{color:#b9c0c5;font-weight:300;margin-top:10px;font-size:17px}
+
+  /* FOOTER */
+  footer{background:#0f1417;color:#aeb4b9;font-size:14px;padding:64px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)}
+  footer .logo{height:30px;margin-bottom:18px;filter:brightness(0) invert(1)}
+  .foot-grid h5{color:#fff;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .foot-grid a{display:block;margin-bottom:10px;font-weight:300;transition:color .2s}
+  .foot-grid a:hover{color:var(--cyan)}
+  .foot-bottom{padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;letter-spacing:.04em}
+
+  @media(max-width:900px){
+    .wrap{padding:0 22px}
+    .menu,.nav-cta,.topbar{display:none}
+    .burger{display:block}
+    .grid3{grid-template-columns:1fr}
+    .feature{grid-template-columns:1fr}
+    .feature .img{min-height:300px}
+    .feature .txt{padding:48px 30px}
+    .stats{grid-template-columns:1fr 1fr;gap:30px}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .hero{height:540px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a href="#">México</a>
+    <a href="#">Insights</a>
+    <a href="#">Carreras</a>
+    <a href="#">Contacto</a>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <img class="logo" src="https://static.wixstatic.com/media/c5a3f2_200d088f4f3b44ef9dfefbee474e8ecd~mv2.png/v1/fill/w_440,h_144,al_c,q_85/c5a3f2_200d088f4f3b44ef9dfefbee474e8ecd~mv2.png" alt="Quantum Business Advisors" />
+      <ul class="menu">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#sofom">Entidades Financieras</a></li>
+        <li><a href="#pld">Cumplimiento</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#contacto" class="nav-cta">Contáctanos</a></li>
+      </ul>
+      <div class="burger">☰</div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="bg" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000&auto=format&fit=crop" alt="" />
+  <div class="scrim"></div>
+  <div class="wrap">
+    <span class="eyebrow">Consultoría · Regulación · Cumplimiento</span>
+    <h1>Fijamos el rumbo para cumplir con tus objetivos</h1>
+    <p>Asesoramos a entidades financieras y empresas en su constitución, autorización y cumplimiento regulatorio, con el rigor y la cercanía que tu negocio necesita.</p>
+    <div class="btns">
+      <a href="#contacto" class="btn btn-solid">Trabaja con nosotros</a>
+      <a href="#servicios" class="btn btn-outline">Conoce los servicios</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATEMENT -->
+<section class="statement">
+  <div class="wrap">
+    <span class="eyebrow">Quiénes somos</span>
+    <h2 style="margin-top:18px">Somos especialistas en el <b>sector financiero mexicano.</b> Ayudamos a constituir, comprar y operar entidades reguladas —SOFOM, FINTECH, SOFIPO— con un acompañamiento integral que <b>da certeza a cada decisión.</b></h2>
+    <a href="#nosotros" class="more">Conoce a Quantum</a>
+  </div>
+</section>
+
+<!-- SERVICES as insights grid -->
+<section class="block gray" id="servicios">
+  <div class="wrap">
+    <div class="sec-label">
+      <h3>Nuestros servicios</h3>
+      <a href="#">Ver todos →</a>
+    </div>
+    <div class="grid3">
+      <article class="insight" id="sofom">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop" alt="" /></div>
+        <div class="body">
+          <span class="cat">Entidades Financieras</span>
+          <h4>Constitución y venta de entidades</h4>
+          <p>SOFOM ENR, FINTECH, SOFIPO y más. Fusiones, autorizaciones regulatorias y venta de entidades constituidas.</p>
+          <div class="arrow">Saber más →</div>
+        </div>
+      </article>
+      <article class="insight" id="consultoria">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1200&auto=format&fit=crop" alt="" /></div>
+        <div class="body">
+          <span class="cat">Consultoría</span>
+          <h4>Consultoría empresarial</h4>
+          <p>Gestión de riesgos, reclutamiento, capacitación, desarrollo organizacional y administración de personal.</p>
+          <div class="arrow">Saber más →</div>
+        </div>
+      </article>
+      <article class="insight" id="pld">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop" alt="" /></div>
+        <div class="body">
+          <span class="cat">Cumplimiento</span>
+          <h4>Prevención de Lavado de Dinero</h4>
+          <p>Auditorías anuales PLD/FT, capacitación y elaboración de manuales para el cumplimiento normativo.</p>
+          <div class="arrow">Saber más →</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE split -->
+<section id="nosotros">
+  <div class="feature">
+    <div class="img" style="background-image:url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1400&auto=format&fit=crop')"></div>
+    <div class="txt">
+      <span class="eyebrow">Por qué Quantum</span>
+      <h3>Experiencia que opera con tranquilidad</h3>
+      <ul>
+        <li><b>✓</b><span>Equipo especializado en regulación financiera, CNBV y CONDUSEF.</span></li>
+        <li><b>✓</b><span>Acompañamiento de principio a fin, no solo asesoría puntual.</span></li>
+        <li><b>✓</b><span>Soluciones a la medida de tu entidad y tu industria.</span></li>
+        <li><b>✓</b><span>Más de una década resolviendo casos complejos de cumplimiento.</span></li>
+      </ul>
+      <a href="#contacto" class="btn btn-solid" style="align-self:flex-start">Hablemos de tu proyecto</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="block">
+  <div class="wrap">
+    <div class="stats">
+      <div class="item"><div class="n">+12</div><div class="l">Años de experiencia en el sector</div></div>
+      <div class="item"><div class="n">100<span>%</span></div><div class="l">Enfoque en cumplimiento regulatorio</div></div>
+      <div class="item"><div class="n">4</div><div class="l">Áreas de especialidad integradas</div></div>
+      <div class="item"><div class="n">MX</div><div class="l">Cobertura nacional desde Guadalajara</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA strip -->
+<section class="ctastrip" id="contacto">
+  <div class="wrap">
+    <div>
+      <h2>¿Listo para fijar el rumbo de tu entidad?</h2>
+      <p>Cuéntanos tu proyecto. Te respondemos con una propuesta clara y sin compromiso.</p>
+    </div>
+    <a href="tel:3334165140" class="btn btn-solid">Llámanos · 33 3416 5140</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img class="logo" src="https://static.wixstatic.com/media/c5a3f2_200d088f4f3b44ef9dfefbee474e8ecd~mv2.png/v1/fill/w_440,h_144,al_c,q_85/c5a3f2_200d088f4f3b44ef9dfefbee474e8ecd~mv2.png" alt="Quantum Business Advisors" />
+        <p style="font-weight:300;max-width:34ch">Fijamos el rumbo para cumplir con tus objetivos.</p>
+      </div>
+      <div>
+        <h5>Servicios</h5>
+        <a href="#sofom">Venta de SOFOM</a>
+        <a href="#consultoria">Consultoría</a>
+        <a href="#pld">Prevención de Lavado</a>
+        <a href="#">Servicios corporativos</a>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <a href="#nosotros">Quiénes somos</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#">Insights</a>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <a href="tel:3334165140">33 3416 5140</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Facebook</a>
+        <a href="#">WhatsApp</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>©2021 QUANTUM BA SC. Todos los derechos reservados.</span>
+      <span>Guadalajara, México</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
