@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contacto | Quantum Business Advisors</title>
+<meta name="description" content="Contáctanos en Guadalajara, Jalisco. Teléfono 33 3416 5140, contacto@quantumba.mx." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="left"><span>Guadalajara, Jalisco · México</span></div>
+    <div class="right">
+      <a class="phone" href="tel:3334165140">33 3416 5140</a>
+      <a href="mailto:contacto@quantumba.mx">contacto@quantumba.mx</a>
+    </div>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <nav class="main">
+      <a href="index.html"><img class="logo" src="https://static.wixstatic.com/media/c5a3f2_200d088f4f3b44ef9dfefbee474e8ecd~mv2.png/v1/fill/w_440,h_144,al_c,q_85/c5a3f2_200d088f4f3b44ef9dfefbee474e8ecd~mv2.png" alt="Quantum Business Advisors" /></a>
+      <ul class="menu" id="menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="venta-de-sofom.html">Venta de SOFOM</a></li>
+        <li><a href="quienes-somos.html">Quiénes somos</a></li>
+        <li><a href="consultoria.html">Consultoría</a></li>
+        <li><a href="prevencion-lavado.html">Prevención de Lavado</a></li>
+        <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
+      </ul>
+      <button class="burger" aria-label="Menú" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="pagehead">
+  <img class="bg" src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2000&auto=format&fit=crop" alt="" />
+  <div class="scrim"></div>
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">Inicio</a> &nbsp;/&nbsp; Contacto</div>
+    <h1>Contáctanos</h1>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="block">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p style="font-size:20px;font-weight:300;color:var(--ink-soft);margin-bottom:36px;max-width:34ch">Si estás listo para hacer más de lo que crees que puedes hacer, da un paso audaz hacia Quantum BA y llámanos.</p>
+        <div class="item">
+          <div class="lbl">Dirección</div>
+          <div class="val">Justicia 2732, Circunvalación Guevara,<br>CP 44680, Guadalajara, Jalisco</div>
+        </div>
+        <div class="item">
+          <div class="lbl">Teléfono</div>
+          <div class="val"><a href="tel:3334165140">33 3416 5140</a></div>
+        </div>
+        <div class="item">
+          <div class="lbl">Correo</div>
+          <div class="val"><a href="mailto:contacto@quantumba.mx">contacto@quantumba.mx</a></div>
+        </div>
+        <div class="item">
+          <div class="lbl">Síguenos</div>
+          <div class="socials">
+            <a href="#">LinkedIn</a>
+            <a href="#">Facebook</a>
+            <a href="#">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <form class="form" onsubmit="event.preventDefault(); this.style.display='none'; document.getElementById('thanks').style.display='block';">
+        <div>
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" required />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+        <div>
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-solid" style="align-self:flex-start">Enviar</button>
+      </form>
+      <div id="thanks" style="display:none">
+        <h2 style="font-size:28px;font-weight:700;letter-spacing:-.01em">¡Gracias por tu mensaje!</h2>
+        <p style="color:var(--ink-soft);font-weight:300;margin-top:12px">Te responderemos a la brevedad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img class="logo" src="https://static.wixstatic.com/media/c5a3f2_200d088f4f3b44ef9dfefbee474e8ecd~mv2.png/v1/fill/w_440,h_144,al_c,q_85/c5a3f2_200d088f4f3b44ef9dfefbee474e8ecd~mv2.png" alt="Quantum Business Advisors" />
+        <p style="font-weight:300;max-width:34ch">Fijamos el rumbo para cumplir con tus objetivos.</p>
+      </div>
+      <div>
+        <h5>Servicios</h5>
+        <a href="venta-de-sofom.html">Venta de SOFOM</a>
+        <a href="consultoria.html">Consultoría</a>
+        <a href="prevencion-lavado.html">Prevención de Lavado</a>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <a href="quienes-somos.html">Quiénes somos</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <a href="tel:3334165140">33 3416 5140</a>
+        <a href="mailto:contacto@quantumba.mx">contacto@quantumba.mx</a>
+        <a href="#">LinkedIn · Facebook · WhatsApp</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>©2021 QUANTUM BA SC. Todos los derechos reservados.</span>
+      <span>Justicia 2732, Circunvalación Guevara, CP 44680, Guadalajara, Jalisco</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
