@@ -164,7 +164,7 @@ nav.main .logo{height:60px}
 /* FOOTER */
 footer.site{background:#0f1417;color:#aeb4b9;font-size:14px;padding:64px 0 40px}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)}
-footer.site .logo{height:30px;margin-bottom:18px;filter:brightness(0) invert(1)}
+footer.site .logo{height:34px;margin-bottom:18px}
 .foot-grid h5{color:#fff;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
 .foot-grid a{display:block;margin-bottom:10px;font-weight:300;transition:color .2s}
 .foot-grid a:hover{color:var(--cyan)}
