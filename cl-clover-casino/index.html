@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Encuesta de Clima Laboral y Gestión de la Unidad | Quantum</title>
+<meta name="description" content="Encuesta de clima laboral y gestión de la unidad, anónima y confidencial. Facilitada por Quantum." />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="/styles.css?v=6" />
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+<style>
+  .cl-intro{max-width:72ch}
+  .cl-note{background:#f4f8fb;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:22px 0 0;font-weight:300;color:#3a4a55}
+  .cl-note b{color:var(--ink);font-weight:600}
+  .dim{margin:44px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+  .dim h3{font-size:21px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px;color:var(--ink)}
+  .dim .dim-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0876A6;margin-bottom:10px}
+  .q{padding:18px 0;border-bottom:1px solid #eef1f3}
+  .q:last-child{border-bottom:0}
+  .q .qtext{display:block;font-weight:400;margin-bottom:12px;color:var(--ink);line-height:1.45}
+  .q .qtext .num{color:#0876A6;font-weight:700;margin-right:7px}
+  .opts{display:flex;flex-direction:column;gap:8px;max-width:600px}
+  .opts label{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;
+    padding:11px 15px;cursor:pointer;font-size:14.5px;font-weight:400;color:#3a4a55;
+    transition:all .15s ease;user-select:none;line-height:1.3}
+  .opts label:hover{border-color:#0D9ED9;color:var(--ink)}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts .box{flex:none;width:20px;height:20px;border:2px solid #b4c1ca;border-radius:5px;
+    display:flex;align-items:center;justify-content:center;transition:all .15s ease}
+  .opts .box svg{opacity:0;transition:opacity .15s ease}
+  .opts label:has(input:checked){border-color:#0876A6;background:#eef8fd;color:var(--ink);font-weight:600}
+  .opts label:has(input:checked) .box{background:#0876A6;border-color:#0876A6}
+  .opts label:has(input:checked) .box svg{opacity:1}
+  .form-open textarea{width:100%;min-height:88px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:inherit;font-weight:300;resize:vertical;color:var(--ink)}
+  .form-open .qtext{margin-bottom:10px}
+  .req{color:#c0392b;font-weight:700;margin-left:4px}
+  .cl-error{display:none;color:#c0392b;font-size:14px;margin:0 0 14px;font-weight:600}
+  .cl-submit{margin-top:34px}
+  .progress-wrap{position:sticky;top:72px;z-index:90;background:#fff;border-bottom:1px solid var(--line);padding:10px 0}
+  .progress-wrap .wrap{display:flex;align-items:center;gap:14px}
+  .progress-bar{flex:1;height:7px;background:#e8edf1;border-radius:99px;overflow:hidden}
+  .progress-bar span{display:block;height:100%;width:0;background:#0D9ED9;transition:width .25s ease}
+  .progress-txt{font-size:13px;font-weight:600;color:#0876A6;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<!-- HEADER SIMPLIFICADO -->
+<header class="landing" style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--line)">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:72px">
+    <a href="/index.html"><img class="logo" src="/logo-quantum.png" alt="Quantum" style="height:44px" /></a>
+    <span style="font-size:13px;font-weight:600;letter-spacing:.04em;color:#3a4a55">Encuesta confidencial</span>
+  </div>
+</header>
+
+<!-- BARRA DE PROGRESO -->
+<div class="progress-wrap">
+  <div class="wrap">
+    <div class="progress-bar"><span id="progressFill"></span></div>
+    <div class="progress-txt" id="progressTxt">0%</div>
+  </div>
+</div>
+
+<!-- PAGE HEADER -->
+<section class="pagehead">
+  <img class="bg" src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2000&auto=format&fit=crop" alt="" />
+  <div class="scrim"></div>
+  <div class="wrap">
+    <div class="crumb">Recursos Humanos · Quantum</div>
+    <h1>Encuesta de Clima Laboral y Gestión de la Unidad</h1>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="block" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="cl-intro">
+      <p style="font-size:19px;font-weight:300;color:#3a4a55">Queremos conocer cómo te sientes trabajando actualmente en la unidad y qué cosas podemos mejorar. No hay respuestas buenas o malas: responde de acuerdo con tu experiencia.</p>
+      <div class="cl-note">
+        <b>Anónima y confidencial.</b> No se solicitarán nombre, número de empleado ni correo electrónico. Los resultados se revisarán de forma agregada; evita incluir nombres o detalles que permitan identificar a personas en los comentarios. La encuesta toma aproximadamente <b>8–10 minutos</b>.
+        <div style="margin-top:12px;font-size:13.5px">
+          <b>Afirmaciones de opinión:</b> No estoy de acuerdo · Estoy poco de acuerdo · Estoy de acuerdo · Estoy totalmente de acuerdo · No sé / No aplica.<br>
+          <b>Preguntas de frecuencia:</b> Nunca · A veces · Frecuentemente · Siempre (salvo que se indiquen otras opciones).
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="block" style="padding-top:34px">
+  <div class="wrap" style="max-width:880px">
+    <form id="climaForm" action="/api/encuesta/clover-casino" method="POST">
+      <div id="secciones"></div>
+
+      <p id="formError" class="cl-error">Por favor revisa las preguntas pendientes e intenta de nuevo.</p>
+      <div class="cl-submit">
+        <button type="submit" class="btn btn-solid">Enviar respuestas</button>
+      </div>
+    </form>
+
+    <div id="thanks" style="display:none;text-align:center;padding:50px 0">
+      <h2 style="font-size:30px;font-weight:700;letter-spacing:-.01em">¡Gracias por participar!</h2>
+      <p style="color:#3a4a55;font-weight:300;margin-top:14px;max-width:48ch;margin-left:auto;margin-right:auto">Tu respuesta fue registrada de forma anónima. Tu opinión nos ayuda a mejorar la unidad.</p>
+    </div>
+
+    <div id="cerrada" style="display:none;text-align:center;padding:50px 0">
+      <h2 style="font-size:30px;font-weight:700;letter-spacing:-.01em">Encuesta cerrada</h2>
+      <p style="color:#3a4a55;font-weight:300;margin-top:14px;max-width:48ch;margin-left:auto;margin-right:auto">Esta encuesta ya alcanzó el número de participantes previsto. ¡Gracias por tu interés!</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-bottom" style="border-top:0">
+      <span>©2026 QUANTUM BA SC · Encuesta facilitada por Quantum · <a href="/aviso-privacidad.html" style="color:inherit;text-decoration:underline">Aviso de Privacidad</a></span>
+      <span>Confidencial — uso interno</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var OP = ["No estoy de acuerdo","Estoy poco de acuerdo","Estoy de acuerdo","Estoy totalmente de acuerdo","No sé / No aplica"];
+  var FR = ["Nunca","A veces","Frecuentemente","Siempre","No sé / No aplica"];
+
+  // tipo: "op"=opinión, "fr"=frecuencia, "custom"=opciones propias, "abierta"=texto
+  var SECCIONES = [
+    { titulo:"Sección 1. Liderazgo", preguntas:[
+      {n:1,  t:"Los responsables de la unidad explican claramente lo que tenemos que hacer.", tipo:"op"},
+      {n:2,  t:"Cuando recibo una instrucción, entiendo claramente qué se espera de mí.", tipo:"op"},
+      {n:3,  t:"Los responsables tratan a las personas con respeto.", tipo:"op"},
+      {n:4,  t:"Cuando hay un cambio importante, nos explican por qué se hace.", tipo:"op"},
+      {n:5,  t:"Los responsables escuchan cuando los colaboradores tenemos algún problema o preocupación.", tipo:"op"},
+      {n:6,  t:"Puedo decir que no estoy de acuerdo con algo sin tener problemas por hacerlo.", tipo:"op"},
+      {n:7,  t:"Los responsables cumplen lo que dicen.", tipo:"op"},
+      {n:8,  t:"Cuando recibo una instrucción, la forma en que me la comunican es respetuosa.", tipo:"op"},
+      {n:9,  t:"Cuando cometo un error, se me explica cómo corregirlo sin hacerme sentir mal o exhibirme frente a otras personas.", tipo:"op"},
+      {n:10, t:"Desde los cambios recientes en la dirección de la unidad, tengo claridad sobre las prioridades y la forma de trabajar.", tipo:"op"},
+      {n:11, t:"Los responsables dan seguimiento a los problemas que los colaboradores reportamos.", tipo:"op"}
+    ]},
+    { titulo:"Sección 2. Organización y planeación", preguntas:[
+      {n:12, t:"Las actividades se organizan con suficiente tiempo.", tipo:"op"},
+      {n:13, t:"Nos avisan con tiempo cuando hay cambios importantes en el trabajo.", tipo:"op"},
+      {n:14, t:"Los horarios de trabajo se organizan con suficiente anticipación.", tipo:"op"},
+      {n:15, t:"Cuando cambian mi horario, me avisan con tiempo.", tipo:"op"},
+      {n:16, t:"Los cambios de horario están bien organizados.", tipo:"op"},
+      {n:17, t:"Sé claramente cuáles son mis responsabilidades.", tipo:"op"},
+      {n:18, t:"La cantidad de trabajo está bien repartida entre las personas.", tipo:"op"},
+      {n:19, t:"Las diferentes áreas se ponen de acuerdo para organizar el trabajo.", tipo:"op"},
+      {n:20, t:"Cuando algo está mal organizado, se busca una solución.", tipo:"op"},
+      {n:21, t:"En general, considero que la unidad está bien organizada.", tipo:"op"}
+    ]},
+    { titulo:"Sección 3. Trato y ambiente de trabajo", preguntas:[
+      {n:22, t:"En mi área las personas se tratan con respeto.", tipo:"op"},
+      {n:23, t:"Los responsables tratan de manera justa a las personas, sin importar su puesto.", tipo:"op"},
+      {n:24, t:"Puedo dar mi opinión aunque sea diferente a la de mi jefe o responsable.", tipo:"op"},
+      {n:25, t:"He visto que algún colaborador sea tratado de manera que lo haga sentir mal, humillado o intimidado.", tipo:"fr"},
+      {n:26, t:"He sentido que alguna persona me trata de manera irrespetuosa en el trabajo.", tipo:"fr"},
+      {n:27, t:"En mi área puedo pedir ayuda cuando tengo un problema en el trabajo.", tipo:"op"},
+      {n:28, t:"Cuando un colaborador tiene un problema con la forma en que fue tratado, alguien se ocupa de atenderlo.", tipo:"op"},
+      {n:29, t:"Hay formas de hablar o de dar instrucciones que hacen sentir presión innecesaria a los colaboradores.", tipo:"fr"},
+      {n:30, t:"Considero que las personas reciben un trato justo.", tipo:"op"},
+      {n:31, t:"En general, considero que hay un buen ambiente de trabajo.", tipo:"op"},
+      {n:32, t:"En los últimos 3 meses, ¿has vivido personalmente una situación laboral que consideres intimidante, humillante o irrespetuosa?", tipo:"fr"},
+      {n:33, t:"Si quieres, describe brevemente una situación de trato inadecuado. No incluyas nombres ni datos que permitan identificar a alguien.", tipo:"abierta", req:false}
+    ]},
+    { titulo:"Sección 4. Horarios y carga de trabajo", preguntas:[
+      {n:34, t:"Normalmente puedo terminar mi trabajo dentro de mi horario.", tipo:"op"},
+      {n:35, t:"En un mes normal, ¿con qué frecuencia trabajas más allá de tu horario?", tipo:"custom", op:["Nunca","1–2 veces","3–5 veces","Más de 5 veces","No aplica"]},
+      {n:36, t:"Cuando trabajo más tiempo del establecido, existe una razón clara para hacerlo.", tipo:"op"},
+      {n:37, t:"Puedo tomar mis descansos de manera adecuada.", tipo:"op"},
+      {n:38, t:"La cantidad de trabajo que tengo se puede realizar dentro del tiempo disponible.", tipo:"op"},
+      {n:39, t:"¿Con qué frecuencia te cambian el horario con poca anticipación?", tipo:"fr"},
+      {n:40, t:"Los cambios repentinos de horario afectan mi vida personal.", tipo:"fr"},
+      {n:41, t:"Cuando cambian mi horario con poca anticipación, me explican el motivo.", tipo:"op"}
+    ]},
+    { titulo:"Sección 5. Reuniones y uso del tiempo", preguntas:[
+      {n:42, t:"Las reuniones tienen un objetivo claro.", tipo:"op"},
+      {n:43, t:"Las reuniones comienzan y terminan a tiempo.", tipo:"op"},
+      {n:44, t:"Las reuniones duran el tiempo necesario.", tipo:"op"},
+      {n:45, t:"Al terminar una reunión queda claro qué se tiene que hacer.", tipo:"op"},
+      {n:46, t:"Después de las reuniones se da seguimiento a los acuerdos.", tipo:"op"},
+      {n:47, t:"Con frecuencia, las reuniones terminan sin que quede claro qué se decidió.", tipo:"fr"},
+      {n:48, t:"Considero que el tiempo de los colaboradores se utiliza bien durante las reuniones.", tipo:"op"}
+    ]},
+    { titulo:"Sección 6. Trabajo entre áreas", preguntas:[
+      {n:49, t:"Las diferentes áreas trabajan bien juntas.", tipo:"op"},
+      {n:50, t:"Cuando dos o más áreas tienen que ponerse de acuerdo, la comunicación es buena.", tipo:"op"},
+      {n:51, t:"Cuando dos responsables tienen diferentes criterios, se llega a una decisión clara para el equipo.", tipo:"op"},
+      {n:52, t:"Los colaboradores recibimos información clara cuando una decisión afecta a varias áreas.", tipo:"op"},
+      {n:53, t:"La coordinación entre las diferentes áreas ayuda a resolver los problemas de la operación.", tipo:"op"}
+    ]},
+    { titulo:"Sección 7. Opinión general", preguntas:[
+      {n:54, t:"¿Cómo calificarías el ambiente de trabajo de la unidad?", tipo:"custom", op:["Muy bueno/a","Bueno/a","Regular","Malo/a","Muy malo/a"]},
+      {n:55, t:"¿Cómo calificarías actualmente la forma en que se dirige la unidad?", tipo:"custom", op:["Muy bueno/a","Bueno/a","Regular","Malo/a","Muy malo/a"]},
+      {n:56, t:"¿Cómo calificarías la comunicación de los responsables con los colaboradores?", tipo:"custom", op:["Muy bueno/a","Bueno/a","Regular","Malo/a","Muy malo/a"]},
+      {n:57, t:"¿Qué es lo que más te gusta de trabajar actualmente en esta unidad?", tipo:"abierta", req:false},
+      {n:58, t:"¿Qué es lo que más debería mejorar la unidad?", tipo:"abierta", req:true},
+      {n:59, t:"Si pudieras cambiar tres cosas de la forma en que actualmente se trabaja, ¿cuáles cambiarías?", tipo:"abierta", req:true},
+      {n:60, t:"¿Hay alguna situación que te preocupe y que consideres importante que la dirección conozca?", tipo:"abierta", req:false},
+      {n:61, t:"¿Quieres agregar algún otro comentario?", tipo:"abierta", req:false}
+    ]},
+    { titulo:"Datos generales (opcionales)", nota:"Estas preguntas son opcionales y nos ayudan a analizar los resultados por grupo, sin identificarte.", preguntas:[
+      {n:62, t:"¿Cuánto tiempo llevas trabajando en la unidad?", tipo:"custom", req:false, op:["Menos de 6 meses","De 6 meses a 1 año","De 1 a 3 años","De 3 a 5 años","Más de 5 años","Prefiero no responder"]},
+      {n:63, t:"¿Cuál es tu nivel de puesto?", tipo:"custom", req:false, op:["Operativo","Supervisor / Coordinador","Jefatura / Gerencia","Prefiero no responder"]}
+    ]}
+  ];
+
+  var cont = document.getElementById('secciones');
+
+  function esc(s){ return s.replace(/"/g,'&quot;'); }
+
+  SECCIONES.forEach(function(sec){
+    var div = document.createElement('div');
+    div.className = 'dim';
+    var html = '<span class="dim-eyebrow">'+sec.titulo+'</span>';
+    if (sec.nota) html += '<p style="font-weight:300;color:#3a4a55;margin:0 0 6px;max-width:60ch">'+sec.nota+'</p>';
+    sec.preguntas.forEach(function(q){
+      var name = 'q'+q.n;
+      var req = (q.req === undefined) ? (q.tipo !== 'abierta') : q.req; // radios requeridos por defecto; abiertas opcionales salvo que se indique
+      var reqMark = req ? '<span class="req" title="Obligatoria">*</span>' : '';
+      if (q.tipo === 'abierta'){
+        html += '<div class="q form-open"><label class="qtext" for="'+name+'"><span class="num">'+q.n+'.</span>'+q.t+reqMark+'</label>'
+             +  '<textarea id="'+name+'" name="'+name+'"'+(req?' required':'')+'></textarea></div>';
+      } else {
+        var ops = q.tipo === 'op' ? OP : (q.tipo === 'fr' ? FR : q.op);
+        html += '<div class="q"><span class="qtext"><span class="num">'+q.n+'.</span>'+q.t+reqMark+'</span><div class="opts">';
+        var check = '<span class="box"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>';
+        ops.forEach(function(op){
+          html += '<label><input type="radio" name="'+name+'" value="'+esc(op)+'"'+(req?' required':'')+'>'+check+'<span>'+op+'</span></label>';
+        });
+        html += '</div></div>';
+      }
+    });
+    div.innerHTML = html;
+    cont.appendChild(div);
+  });
+
+  // Barra de progreso (cuenta campos obligatorios respondidos)
+  var form = document.getElementById('climaForm');
+  var fill = document.getElementById('progressFill');
+  var ptxt = document.getElementById('progressTxt');
+  function requiredNames(){
+    var names = {};
+    form.querySelectorAll('[required]').forEach(function(el){ names[el.name]=true; });
+    return Object.keys(names);
+  }
+  var reqNames = requiredNames();
+  function updateProgress(){
+    var done = 0;
+    reqNames.forEach(function(nm){
+      var els = form.elements[nm];
+      if (!els) return;
+      if (els.length){ // radio group
+        for (var i=0;i<els.length;i++){ if(els[i].checked){ done++; break; } }
+      } else if (els.value && els.value.trim()!==''){ done++; }
+    });
+    var pct = reqNames.length ? Math.round(done/reqNames.length*100) : 0;
+    fill.style.width = pct+'%';
+    ptxt.textContent = pct+'%';
+  }
+  form.addEventListener('change', updateProgress);
+  form.addEventListener('input', updateProgress);
+  updateProgress();
+
+  // Al abrir: si la encuesta ya alcanzó su cupo, mostrar "cerrada"
+  fetch('/api/estado/clover-casino', { headers:{'Accept':'application/json'} })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      if (d && d.ok && d.abierta === false){
+        form.style.display = 'none';
+        document.getElementById('cerrada').style.display = 'block';
+      }
+    }).catch(function(){ /* sin conexión al backend: se deja la encuesta visible */ });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var err = document.getElementById('formError');
+    err.style.display = 'none';
+    if (!form.checkValidity()){
+      var firstInvalid = form.querySelector(':invalid');
+      if (firstInvalid){ firstInvalid.scrollIntoView({behavior:'smooth', block:'center'}); }
+      err.style.display = 'block';
+      return;
+    }
+    var btn = form.querySelector('button[type=submit]');
+    btn.disabled = true; btn.textContent = 'Enviando...';
+    var datos = {};
+    new FormData(form).forEach(function(v, k){ datos[k] = v; });
+    fetch(form.action, {
+      method:'POST',
+      body:JSON.stringify(datos),
+      headers:{'Content-Type':'application/json','Accept':'application/json'}
+    }).then(function(r){
+      if (r.ok){
+        form.style.display = 'none';
+        document.getElementById('thanks').style.display = 'block';
+        window.scrollTo({top:0, behavior:'smooth'});
+      } else if (r.status === 429){
+        form.style.display = 'none';
+        document.getElementById('cerrada').style.display = 'block';
+        window.scrollTo({top:0, behavior:'smooth'});
+      } else {
+        err.textContent = 'Hubo un problema al enviar. Por favor intenta de nuevo.';
+        err.style.display = 'block';
+        btn.disabled = false; btn.textContent = 'Enviar respuestas';
+      }
+    }).catch(function(){
+      err.textContent = 'Hubo un problema al enviar. Por favor intenta de nuevo.';
+      err.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Enviar respuestas';
+    });
+  });
+})();
+</script>
+</body>
+</html>
