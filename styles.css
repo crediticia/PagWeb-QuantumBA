@@ -36,7 +36,7 @@ nav.main .logo{height:60px}
 .menu>li>a[aria-current="page"]{border-color:var(--ink);color:var(--ink)}
 .nav-cta{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff !important;background:var(--cyan-deep);padding:13px 20px;transition:background .2s;border:0 !important}
 .nav-cta:hover{background:var(--cyan-deep)}
-.burger{display:none;font-size:24px;background:none;border:0;cursor:pointer}
+.burger{display:none;font-size:24px;background:none;border:0;cursor:pointer;padding:10px;margin:-10px -8px -10px 0;line-height:1}
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:15px 26px;transition:background .2s,color .2s;cursor:pointer;border:0}
@@ -165,7 +165,7 @@ nav.main .logo{height:60px}
 footer.site{background:#0f1417;color:#aeb4b9;font-size:14px;padding:64px 0 40px}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)}
 footer.site .logo{height:34px;margin-bottom:18px}
-.foot-grid h5{color:#fff;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+.foot-grid .ftitle{color:#fff;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
 .foot-grid a{display:block;margin-bottom:10px;font-weight:300;transition:color .2s}
 .foot-grid a:hover{color:var(--cyan)}
 .foot-bottom{padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;letter-spacing:.04em}
