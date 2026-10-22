@@ -81,8 +81,8 @@
       <div class="cl-note">
         <b>Anónima y confidencial.</b> No se solicitarán nombre, número de empleado ni correo electrónico. Los resultados se revisarán de forma agregada; evita incluir nombres o detalles que permitan identificar a personas en los comentarios. La encuesta toma aproximadamente <b>8–10 minutos</b>.
         <div style="margin-top:12px;font-size:13.5px">
-          <b>Afirmaciones de opinión:</b> No estoy de acuerdo · Estoy poco de acuerdo · Estoy de acuerdo · Estoy totalmente de acuerdo · No sé / No aplica.<br>
-          <b>Preguntas de frecuencia:</b> Nunca · A veces · Frecuentemente · Siempre (salvo que se indiquen otras opciones).
+          <b>Afirmaciones de opinión:</b> Nada de acuerdo · Poco de acuerdo · De acuerdo · Muy de acuerdo.<br>
+          <b>Preguntas de frecuencia:</b> Nunca · A veces · Casi siempre · Siempre (salvo que se indiquen otras opciones).
         </div>
       </div>
     </div>
@@ -125,8 +125,9 @@
 
 <script>
 (function(){
-  var OP = ["No estoy de acuerdo","Estoy poco de acuerdo","Estoy de acuerdo","Estoy totalmente de acuerdo","No sé / No aplica"];
-  var FR = ["Nunca","A veces","Frecuentemente","Siempre","No sé / No aplica"];
+  var OP = ["Nada de acuerdo","Poco de acuerdo","De acuerdo","Muy de acuerdo"];
+  var FR = ["Nunca","A veces","Casi siempre","Siempre"];
+  var FR_NA = ["Nunca","A veces","Casi siempre","Siempre","No aplica"];
 
   // tipo: "op"=opinión, "fr"=frecuencia, "custom"=opciones propias, "abierta"=texto
   var SECCIONES = [
@@ -159,19 +160,19 @@
       {n:22, t:"En mi área las personas se tratan con respeto.", tipo:"op"},
       {n:23, t:"Los responsables tratan de manera justa a las personas, sin importar su puesto.", tipo:"op"},
       {n:24, t:"Puedo dar mi opinión aunque sea diferente a la de mi jefe o responsable.", tipo:"op"},
-      {n:25, t:"He visto que algún colaborador sea tratado de manera que lo haga sentir mal, humillado o intimidado.", tipo:"fr"},
-      {n:26, t:"He sentido que alguna persona me trata de manera irrespetuosa en el trabajo.", tipo:"fr"},
+      {n:25, t:"He visto que algún colaborador sea tratado de manera que lo haga sentir mal, humillado o intimidado.", tipo:"custom", op:FR_NA},
+      {n:26, t:"He sentido que alguna persona me trata de manera irrespetuosa en el trabajo.", tipo:"custom", op:FR_NA},
       {n:27, t:"En mi área puedo pedir ayuda cuando tengo un problema en el trabajo.", tipo:"op"},
       {n:28, t:"Cuando un colaborador tiene un problema con la forma en que fue tratado, alguien se ocupa de atenderlo.", tipo:"op"},
       {n:29, t:"Hay formas de hablar o de dar instrucciones que hacen sentir presión innecesaria a los colaboradores.", tipo:"fr"},
       {n:30, t:"Considero que las personas reciben un trato justo.", tipo:"op"},
       {n:31, t:"En general, considero que hay un buen ambiente de trabajo.", tipo:"op"},
-      {n:32, t:"En los últimos 3 meses, ¿has vivido personalmente una situación laboral que consideres intimidante, humillante o irrespetuosa?", tipo:"fr"},
+      {n:32, t:"En los últimos 3 meses, ¿has vivido personalmente una situación laboral que consideres intimidante, humillante o irrespetuosa?", tipo:"custom", op:FR_NA},
       {n:33, t:"Si quieres, describe brevemente una situación de trato inadecuado. No incluyas nombres ni datos que permitan identificar a alguien.", tipo:"abierta", req:false}
     ]},
     { titulo:"Sección 4. Horarios y carga de trabajo", preguntas:[
       {n:34, t:"Normalmente puedo terminar mi trabajo dentro de mi horario.", tipo:"op"},
-      {n:35, t:"En un mes normal, ¿con qué frecuencia trabajas más allá de tu horario?", tipo:"custom", op:["Nunca","1–2 veces","3–5 veces","Más de 5 veces","No aplica"]},
+      {n:35, t:"En un mes normal, ¿con qué frecuencia trabajas más allá de tu horario?", tipo:"custom", op:["Nunca","Rara vez","Algunas veces","Muchas veces"]},
       {n:36, t:"Cuando trabajo más tiempo del establecido, existe una razón clara para hacerlo.", tipo:"op"},
       {n:37, t:"Puedo tomar mis descansos de manera adecuada.", tipo:"op"},
       {n:38, t:"La cantidad de trabajo que tengo se puede realizar dentro del tiempo disponible.", tipo:"op"},
@@ -196,9 +197,9 @@
       {n:53, t:"La coordinación entre las diferentes áreas ayuda a resolver los problemas de la operación.", tipo:"op"}
     ]},
     { titulo:"Sección 7. Opinión general", preguntas:[
-      {n:54, t:"¿Cómo calificarías el ambiente de trabajo de la unidad?", tipo:"custom", op:["Muy bueno/a","Bueno/a","Regular","Malo/a","Muy malo/a"]},
-      {n:55, t:"¿Cómo calificarías actualmente la forma en que se dirige la unidad?", tipo:"custom", op:["Muy bueno/a","Bueno/a","Regular","Malo/a","Muy malo/a"]},
-      {n:56, t:"¿Cómo calificarías la comunicación de los responsables con los colaboradores?", tipo:"custom", op:["Muy bueno/a","Bueno/a","Regular","Malo/a","Muy malo/a"]},
+      {n:54, t:"¿Cómo calificarías el ambiente de trabajo de la unidad?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
+      {n:55, t:"¿Cómo calificarías actualmente la forma en que se dirige la unidad?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
+      {n:56, t:"¿Cómo calificarías la comunicación de los responsables con los colaboradores?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
       {n:57, t:"¿Qué es lo que más te gusta de trabajar actualmente en esta unidad?", tipo:"abierta", req:false},
       {n:58, t:"¿Qué es lo que más debería mejorar la unidad?", tipo:"abierta", req:true},
       {n:59, t:"Si pudieras cambiar tres cosas de la forma en que actualmente se trabaja, ¿cuáles cambiarías?", tipo:"abierta", req:true},

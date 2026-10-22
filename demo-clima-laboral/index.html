@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo · Encuesta de Clima Laboral | Quantum</title>
+<meta name="description" content="Encuesta de clima laboral y gestión de la unidad, anónima y confidencial. Facilitada por Quantum." />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="/styles.css?v=6" />
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+<style>
+  .cl-intro{max-width:72ch}
+  .cl-note{background:#f4f8fb;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:22px 0 0;font-weight:300;color:#3a4a55}
+  .cl-note b{color:var(--ink);font-weight:600}
+  .dim{margin:44px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+  .dim h3{font-size:21px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px;color:var(--ink)}
+  .dim .dim-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0876A6;margin-bottom:10px}
+  .q{padding:18px 0;border-bottom:1px solid #eef1f3}
+  .q:last-child{border-bottom:0}
+  .q .qtext{display:block;font-weight:400;margin-bottom:12px;color:var(--ink);line-height:1.45}
+  .q .qtext .num{color:#0876A6;font-weight:700;margin-right:7px}
+  .opts{display:flex;flex-direction:column;gap:8px;max-width:600px}
+  .opts label{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;
+    padding:11px 15px;cursor:pointer;font-size:14.5px;font-weight:400;color:#3a4a55;
+    transition:all .15s ease;user-select:none;line-height:1.3}
+  .opts label:hover{border-color:#0D9ED9;color:var(--ink)}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts .box{flex:none;width:20px;height:20px;border:2px solid #b4c1ca;border-radius:5px;
+    display:flex;align-items:center;justify-content:center;transition:all .15s ease}
+  .opts .box svg{opacity:0;transition:opacity .15s ease}
+  .opts label:has(input:checked){border-color:#0876A6;background:#eef8fd;color:var(--ink);font-weight:600}
+  .opts label:has(input:checked) .box{background:#0876A6;border-color:#0876A6}
+  .opts label:has(input:checked) .box svg{opacity:1}
+  .form-open textarea{width:100%;min-height:88px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:inherit;font-weight:300;resize:vertical;color:var(--ink)}
+  .form-open .qtext{margin-bottom:10px}
+  .req{color:#c0392b;font-weight:700;margin-left:4px}
+  .cl-error{display:none;color:#c0392b;font-size:14px;margin:0 0 14px;font-weight:600}
+  .cl-submit{margin-top:34px}
+  .progress-wrap{position:sticky;top:72px;z-index:90;background:#fff;border-bottom:1px solid var(--line);padding:10px 0}
+  .progress-wrap .wrap{display:flex;align-items:center;gap:14px}
+  .progress-bar{flex:1;height:7px;background:#e8edf1;border-radius:99px;overflow:hidden}
+  .progress-bar span{display:block;height:100%;width:0;background:#0D9ED9;transition:width .25s ease}
+  .progress-txt{font-size:13px;font-weight:600;color:#0876A6;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<!-- BANNER DEMO -->
+<div style="background:#0A2C3D;color:#fff;text-align:center;font-size:13.5px;font-weight:500;padding:10px 16px;line-height:1.4">
+  Versión de demostración · Las respuestas no se guardan. Así se vería la encuesta personalizada para tu empresa.
+</div>
+
+<!-- HEADER SIMPLIFICADO -->
+<header class="landing" style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--line)">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:72px">
+    <a href="/index.html"><img class="logo" src="/logo-quantum.png" alt="Quantum" style="height:44px" /></a>
+    <a href="/contacto.html" class="nav-cta">Contáctanos</a>
+  </div>
+</header>
+
+<!-- BARRA DE PROGRESO -->
+<div class="progress-wrap">
+  <div class="wrap">
+    <div class="progress-bar"><span id="progressFill"></span></div>
+    <div class="progress-txt" id="progressTxt">0%</div>
+  </div>
+</div>
+
+<!-- PAGE HEADER -->
+<section class="pagehead">
+  <img class="bg" src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2000&auto=format&fit=crop" alt="" />
+  <div class="scrim"></div>
+  <div class="wrap">
+    <div class="crumb">Demostración · Quantum</div>
+    <h1>Encuesta de Clima Laboral</h1>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="block" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="cl-intro">
+      <p style="font-size:19px;font-weight:300;color:#3a4a55">Esta es una <b>demostración</b> de nuestra encuesta de clima laboral. Pruébala como lo haría un colaborador: responde las preguntas y envíala para ver la experiencia completa. Puedes contestar con total libertad — <b>no se guarda ninguna respuesta</b>.</p>
+      <div class="cl-note">
+        <b>Personalizable para tu empresa.</b> En la versión real, la encuesta es anónima y confidencial (no pide nombre, número de empleado ni correo), se adapta a las necesidades de tu organización y está alineada con los requisitos aplicables de la <b>NOM-035-STPS</b>. Toma aproximadamente <b>8–10 minutos</b>.
+        <div style="margin-top:12px;font-size:13.5px">
+          <b>Afirmaciones de opinión:</b> Nada de acuerdo · Poco de acuerdo · De acuerdo · Muy de acuerdo.<br>
+          <b>Preguntas de frecuencia:</b> Nunca · A veces · Casi siempre · Siempre (salvo que se indiquen otras opciones).
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="block" style="padding-top:34px">
+  <div class="wrap" style="max-width:880px">
+    <form id="climaForm" action="#" method="POST">
+      <div id="secciones"></div>
+
+      <p id="formError" class="cl-error">Por favor revisa las preguntas pendientes e intenta de nuevo.</p>
+      <div class="cl-submit">
+        <button type="submit" class="btn btn-solid">Enviar respuestas</button>
+      </div>
+    </form>
+
+    <div id="thanks" style="display:none;text-align:center;padding:50px 0">
+      <h2 style="font-size:30px;font-weight:700;letter-spacing:-.01em">¡Así de fácil es contestarla!</h2>
+      <p style="color:#3a4a55;font-weight:300;margin-top:14px;max-width:52ch;margin-left:auto;margin-right:auto">Esto fue una <b>demostración</b>, por lo que no se guardó ninguna respuesta. En la versión real, las respuestas llegan de forma <b>anónima</b> a Quantum y te entregamos los resultados listos para tomar decisiones.</p>
+      <div style="margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="/contacto.html" class="btn btn-solid">Quiero esta encuesta para mi empresa</a>
+        <a href="#" onclick="location.reload();return false;" class="btn btn-outline" style="color:var(--ink);border-color:var(--line)">Ver la demo otra vez</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-bottom" style="border-top:0">
+      <span>©2026 QUANTUM BA SC · Encuesta de clima laboral Quantum · <a href="/aviso-privacidad.html" style="color:inherit;text-decoration:underline">Aviso de Privacidad</a></span>
+      <span>Versión de demostración</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var OP = ["Nada de acuerdo","Poco de acuerdo","De acuerdo","Muy de acuerdo"];
+  var FR = ["Nunca","A veces","Casi siempre","Siempre"];
+  var FR_NA = ["Nunca","A veces","Casi siempre","Siempre","No aplica"];
+
+  // tipo: "op"=opinión, "fr"=frecuencia, "custom"=opciones propias, "abierta"=texto
+  // DEMO: solo algunas preguntas de ejemplo (una de cada tipo de respuesta).
+  // La versión real incluye el cuestionario completo (más de 60 preguntas), personalizado.
+  var SECCIONES = [
+    { titulo:"Preguntas de ejemplo", nota:"Estas son solo 5 preguntas de muestra para que veas cómo se ve y cómo funciona la encuesta. La versión real incluye el cuestionario completo (más de 60 preguntas), personalizado para tu empresa.", preguntas:[
+      {n:1, t:"Los responsables explican claramente lo que tenemos que hacer.", tipo:"op"},
+      {n:2, t:"En mi área las personas se tratan con respeto.", tipo:"op"},
+      {n:3, t:"¿Con qué frecuencia te cambian el horario con poca anticipación?", tipo:"fr"},
+      {n:4, t:"¿Cómo calificarías el ambiente de trabajo de tu empresa?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
+      {n:5, t:"¿Qué es lo que más debería mejorar tu empresa?", tipo:"abierta", req:false}
+    ]}
+  ];
+
+  var cont = document.getElementById('secciones');
+
+  function esc(s){ return s.replace(/"/g,'&quot;'); }
+
+  SECCIONES.forEach(function(sec){
+    var div = document.createElement('div');
+    div.className = 'dim';
+    var html = '<span class="dim-eyebrow">'+sec.titulo+'</span>';
+    if (sec.nota) html += '<p style="font-weight:300;color:#3a4a55;margin:0 0 6px;max-width:60ch">'+sec.nota+'</p>';
+    sec.preguntas.forEach(function(q){
+      var name = 'q'+q.n;
+      var req = false; // DEMO: todas las preguntas opcionales, se puede enviar en cualquier momento
+      var reqMark = req ? '<span class="req" title="Obligatoria">*</span>' : '';
+      if (q.tipo === 'abierta'){
+        html += '<div class="q form-open"><label class="qtext" for="'+name+'"><span class="num">'+q.n+'.</span>'+q.t+reqMark+'</label>'
+             +  '<textarea id="'+name+'" name="'+name+'"'+(req?' required':'')+'></textarea></div>';
+      } else {
+        var ops = q.tipo === 'op' ? OP : (q.tipo === 'fr' ? FR : q.op);
+        html += '<div class="q"><span class="qtext"><span class="num">'+q.n+'.</span>'+q.t+reqMark+'</span><div class="opts">';
+        var check = '<span class="box"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>';
+        ops.forEach(function(op){
+          html += '<label><input type="radio" name="'+name+'" value="'+esc(op)+'"'+(req?' required':'')+'>'+check+'<span>'+op+'</span></label>';
+        });
+        html += '</div></div>';
+      }
+    });
+    div.innerHTML = html;
+    cont.appendChild(div);
+  });
+
+  // Barra de progreso (cuenta campos obligatorios respondidos)
+  var form = document.getElementById('climaForm');
+  var fill = document.getElementById('progressFill');
+  var ptxt = document.getElementById('progressTxt');
+  function trackedNames(){
+    var names = {};
+    form.querySelectorAll('input[type=radio], textarea').forEach(function(el){ if(el.name) names[el.name]=true; });
+    return Object.keys(names);
+  }
+  var reqNames = trackedNames();
+  function updateProgress(){
+    var done = 0;
+    reqNames.forEach(function(nm){
+      var els = form.elements[nm];
+      if (!els) return;
+      if (els.length){ // radio group
+        for (var i=0;i<els.length;i++){ if(els[i].checked){ done++; break; } }
+      } else if (els.value && els.value.trim()!==''){ done++; }
+    });
+    var pct = reqNames.length ? Math.round(done/reqNames.length*100) : 0;
+    fill.style.width = pct+'%';
+    ptxt.textContent = pct+'%';
+  }
+  form.addEventListener('change', updateProgress);
+  form.addEventListener('input', updateProgress);
+  updateProgress();
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var err = document.getElementById('formError');
+    err.style.display = 'none';
+    if (!form.checkValidity()){
+      var firstInvalid = form.querySelector(':invalid');
+      if (firstInvalid){ firstInvalid.scrollIntoView({behavior:'smooth', block:'center'}); }
+      err.style.display = 'block';
+      return;
+    }
+    // DEMO: no se envía a ningún servidor ni se guarda ninguna respuesta
+    form.style.display = 'none';
+    document.getElementById('thanks').style.display = 'block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
+</script>
+</body>
+</html>
