@@ -193,13 +193,3 @@ footer.site .logo{height:34px;margin-bottom:18px}
 .wa-float:hover{transform:scale(1.08);}
 .wa-float svg{width:32px;height:32px;fill:#fff;}
 @media(max-width:600px){.wa-float{width:52px;height:52px;right:16px;bottom:16px;}.wa-float svg{width:28px;height:28px;}}
-
-/* ─── Dispositivo de marca "Q" + duotono de imágenes (sitio) ─── */
-.hero img.bg,.pagehead img.bg,.insight .ph img,.feature .img{filter:url(#q-duo)}
-.q-hero{position:absolute;right:-7%;top:50%;transform:translateY(-50%);width:min(48vw,620px);height:auto;color:var(--cyan);opacity:.18;z-index:1;pointer-events:none}
-.q-head{position:absolute;right:-5%;top:50%;transform:translateY(-50%);width:min(42vw,440px);height:auto;color:var(--cyan);opacity:.15;z-index:1;pointer-events:none}
-.pagehead .wrap{position:relative;z-index:2}
-.ctastrip{position:relative;overflow:hidden}
-.q-cta{position:absolute;right:16px;bottom:-46px;width:300px;height:auto;color:#fff;opacity:.07;z-index:0;pointer-events:none}
-.ctastrip .wrap{position:relative;z-index:1}
-.q-tick{display:inline-block;width:20px;height:20px;color:var(--cyan-deep);vertical-align:-3px;margin-right:9px}

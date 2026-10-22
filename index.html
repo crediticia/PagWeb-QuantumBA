@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="Quantum BA · Asesoría para SOFOM, SOFIPO y Fintech">
 <meta name="twitter:description" content="Asesoría IFNB, asesoría financiera, broker financiero y tecnología para instituciones financieras no bancarias.">
 <meta name="twitter:image" content="https://www.quantumba.mx/og-quantum.jpg">
-<link rel="stylesheet" href="styles.css?v=8" />
+<link rel="stylesheet" href="styles.css?v=9" />
 <style>
   /* Portada: 4 pilares en 2×2 */
   .grid4{grid-template-columns:repeat(2,1fr)}
@@ -72,24 +72,6 @@
 </head>
 <body>
 
-<!-- SPIKE: definiciones SVG (filtro duotono + motivo Q) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <filter id="q-duo" color-interpolation-filters="sRGB">
-      <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0"/>
-      <feComponentTransfer>
-        <feFuncR type="table" tableValues="0.039 0.86"/>
-        <feFuncG type="table" tableValues="0.173 0.94"/>
-        <feFuncB type="table" tableValues="0.239 0.99"/>
-      </feComponentTransfer>
-    </filter>
-    <symbol id="q-mark" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="5"/>
-      <path d="M30 64 L50 32 L70 64 Z" fill="currentColor"/>
-      <path d="M60 60 L82 84" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-    </symbol>
-  </defs>
-</svg>
 
 <div class="topbar">
   <div class="wrap">
@@ -125,7 +107,6 @@
 <section class="hero">
   <img class="bg" src="https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?q=80&w=2000&auto=format&fit=crop" alt="" />
   <div class="scrim"></div>
-  <svg class="q-hero" viewBox="0 0 100 100" aria-hidden="true"><use href="#q-mark"/></svg>
   <div class="wrap">
     <span class="eyebrow">Consultoría para empresas e instituciones financieras</span>
     <h1>Ordenamos las finanzas, la operación y el talento de tu empresa</h1>
@@ -150,7 +131,7 @@
 <section class="block gray">
   <div class="wrap">
     <div class="sec-label">
-      <h3><svg class="q-tick" viewBox="0 0 100 100" aria-hidden="true"><use href="#q-mark"/></svg>Nuestras áreas de especialidad</h3>
+      <h3>Nuestras áreas de especialidad</h3>
       <a href="consultoria.html">Ver más →</a>
     </div>
     <div class="grid3 grid4">
@@ -226,7 +207,6 @@
 
 <!-- CTA -->
 <section class="ctastrip">
-  <svg class="q-cta" viewBox="0 0 100 100" aria-hidden="true"><use href="#q-mark"/></svg>
   <div class="wrap">
     <div>
       <h2>¿Listo para fijar el rumbo de tu entidad?</h2>
