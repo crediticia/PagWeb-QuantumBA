@@ -6,7 +6,7 @@
 <title>Demo · Encuesta de Clima Laboral | Quantum</title>
 <meta name="description" content="Encuesta de clima laboral y gestión de la unidad, anónima y confidencial. Facilitada por Quantum." />
 <meta name="robots" content="noindex, nofollow" />
-<link rel="stylesheet" href="/styles.css?v=7" />
+<link rel="stylesheet" href="/styles.css?v=8" />
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/favicon-180.png">
@@ -47,6 +47,26 @@
 </head>
 <body>
 
+<!-- Marca Q + duotono: definiciones SVG -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="q-duo" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0"/>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0.039 0.86"/>
+        <feFuncG type="table" tableValues="0.173 0.94"/>
+        <feFuncB type="table" tableValues="0.239 0.99"/>
+      </feComponentTransfer>
+    </filter>
+    <symbol id="q-mark" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="5"/>
+      <path d="M30 64 L50 32 L70 64 Z" fill="currentColor"/>
+      <path d="M60 60 L82 84" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+
 <!-- BANNER DEMO -->
 <div style="background:#0A2C3D;color:#fff;text-align:center;font-size:13.5px;font-weight:500;padding:10px 16px;line-height:1.4">
   Versión de demostración · Las respuestas no se guardan. Así se vería la encuesta personalizada para tu empresa.
@@ -72,6 +92,7 @@
 <section class="pagehead">
   <img class="bg" src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2000&auto=format&fit=crop" alt="" />
   <div class="scrim"></div>
+  <svg class="q-head" viewBox="0 0 100 100" aria-hidden="true"><use href="#q-mark"/></svg>
   <div class="wrap">
     <div class="crumb">Demostración · Quantum</div>
     <h1>Encuesta de Clima Laboral</h1>
