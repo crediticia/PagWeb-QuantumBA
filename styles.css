@@ -3,7 +3,7 @@
   --ink-soft:#5a5f63;
   --cyan:#0D9ED9;
   --cyan-deep:#0876a6;
-  --navy:#0a2c3d;
+  --navy:#0e3a41;
   --line:#e3e5e8;
   --bg-gray:#f4f5f6;
   --maxw:1280px;
@@ -18,7 +18,7 @@ img{max-width:100%;display:block}
 .eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan-deep)}
 
 /* TOP BAR */
-.topbar{background:var(--ink);color:#fff;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.topbar{background:var(--navy);color:#fff;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
 .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:36px}
 .topbar .left{display:flex;gap:22px;align-items:center}
 .topbar .right{display:flex;gap:22px;align-items:center}
