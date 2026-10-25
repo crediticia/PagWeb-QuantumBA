@@ -24,6 +24,7 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/favicon-180.png">
+<link rel="stylesheet" href="styles.css?v=15" />
 <script type="application/ld+json">
 {
   "@context":"https://schema.org","@type":"ProfessionalService","name":"Quantum","legalName":"Quantum",
@@ -45,25 +46,7 @@
   .btn-solid:hover{background:var(--navy)}
   .btn-ghost{border:1px solid var(--navy);color:var(--navy)}
   .btn-ghost:hover{background:var(--navy);color:#fff}
-  .util{background:var(--navy);color:#c6d2d8;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
-  .util .wrap{display:flex;justify-content:space-between;align-items:center;height:38px}
-  .util a{color:#fff;margin-left:22px}
-  header{background:var(--navy);border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:40}
-  header .wrap{display:flex;align-items:center;justify-content:space-between;height:82px}
-  header .logo{height:42px}
-  nav a{color:#fff;font-size:12.5px;font-weight:700;margin-left:26px;text-transform:uppercase;letter-spacing:.04em}
-  nav a:hover,nav a[aria-current]{color:#7fd3f0}
-  nav .nav-cta{color:#fff;background:var(--cyan-deep);padding:12px 18px}
-  nav .nav-cta:hover{background:var(--navy)}
-  .burger{display:none;font-size:24px;background:none;border:0;cursor:pointer;color:#fff}
-  /* submenú Consultoría */
-  .nav-item{position:relative;display:inline-block;margin-left:26px}
-  .nav-item>.nav-top{margin-left:0}
-  .nav-item .car{font-size:10px;color:#7fd3f0}
-  .submenu{position:absolute;top:100%;left:0;background:#fff;border:1px solid var(--line);min-width:280px;box-shadow:0 16px 36px -20px rgba(10,44,61,.4);display:none;padding:8px 0;z-index:50}
-  .nav-item:hover .submenu{display:block}
-  .submenu a{display:block;margin:0;padding:11px 20px;text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:500;color:var(--ink);white-space:nowrap}
-  .submenu a:hover{background:var(--bg2);color:var(--cyan-deep)}
+  /* Cabecera: header estandar en styles.css */
   /* CARRUSEL del hero */
   .carousel{position:relative;height:640px;overflow:hidden;background:var(--navy)}
   .slides{position:absolute;inset:0}
@@ -126,16 +109,7 @@
   .wa-float svg{width:30px;height:30px;fill:#fff}
   @media(max-width:900px){
     .grid{grid-template-columns:1fr 1fr}.cred .row{grid-template-columns:1fr 1fr}.why{grid-template-columns:1fr}.why .img{min-height:260px}
-    nav{position:absolute;top:100%;left:0;right:0;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.1);flex-direction:column;align-items:stretch;padding:8px 22px 16px;display:none}
-    nav.open{display:flex}
-    nav a{margin:0;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:14px}
-    nav .nav-cta{margin-top:12px;text-align:center;border-bottom:0}
-    .burger{display:block}
-    .nav-item{display:block;margin-left:0;width:100%}
-    .nav-item>.nav-top{padding:13px 0;border-bottom:1px solid rgba(255,255,255,.12)}
-    .nav-item .car{display:none}
-    .submenu{position:static;display:block;border:0;box-shadow:none;padding:2px 0 6px 16px;min-width:0;background:transparent}
-    .submenu a{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.12);white-space:normal;text-transform:none;letter-spacing:0;font-size:13.5px;color:rgba(255,255,255,.72)}
+    
   }
   @media(max-width:680px){
     .wrap{padding:0 22px}.carousel{height:580px}.cb{display:none}
@@ -146,32 +120,40 @@
 </head>
 <body>
 
-<div class="util"><div class="wrap">
-  <span>Guadalajara, Jalisco · México</span>
-  <span><a href="tel:+523334165140">+52 33 3416 5140</a><a href="mailto:contacto@quantumba.mx">contacto@quantumba.mx</a>
-      <a href="mailto:daniel@quantumba.mx">daniel@quantumba.mx</a></span>
-</div></div>
+<div class="topbar">
+  <div class="wrap">
+    <div class="left"><span>Guadalajara, Jalisco · México</span></div>
+    <div class="right">
+      <a class="phone" href="tel:+523334165140">+52 33 3416 5140</a>
+      <a href="mailto:contacto@quantumba.mx">contacto@quantumba.mx</a>
+      <a href="mailto:daniel@quantumba.mx">daniel@quantumba.mx</a>
+    </div>
+  </div>
+</div>
 
-<header><div class="wrap">
-  <a href="index.html"><img class="logo" src="/logo-quantum-blanco.png" alt="Quantum"></a>
-  <button class="burger" aria-label="Menú" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
-  <nav id="menu">
-    <a href="index.html" aria-current="page">Inicio</a>
-    <a href="quienes-somos.html">Quiénes somos</a>
-    <span class="nav-item">
-      <a href="consultoria.html" class="nav-top">Consultoría <span class="car">▾</span></a>
-      <div class="submenu">
-        <a href="consultoria.html">Consultoría financiera y empresarial</a>
-        <a href="pld-lfpiorpi.html">PLD · LFPIORPI (actividades vulnerables)</a>
-        <a href="ifrs-socaps.html">IFRS para SOCAPS</a>
-      </div>
-    </span>
-    <a href="venta-de-sofom.html">Venta de SOFOM</a>
-    <a href="recursos-humanos.html">RRHH</a>
-    <a href="ecosistema.html">Ecosistema</a>
-    <a href="contacto.html" class="nav-cta">Contacto</a>
-  </nav>
-</div></header>
+<header class="site">
+  <div class="wrap">
+    <nav class="main">
+      <a href="index.html"><img class="logo" src="/logo-quantum-blanco.png" alt="Quantum" /></a>
+      <ul class="menu" id="menu">
+        <li><a href="index.html" aria-current="page">Inicio</a></li>
+        <li><a href="quienes-somos.html">Quiénes somos</a></li>
+        <li class="has-sub"><a href="consultoria.html">Consultoría <span class="car">▾</span></a>
+          <ul class="submenu">
+            <li><a href="consultoria.html">Consultoría financiera y empresarial</a></li>
+            <li><a href="pld-lfpiorpi.html">PLD · LFPIORPI (actividades vulnerables)</a></li>
+            <li><a href="ifrs-socaps.html">IFRS para SOCAPS</a></li>
+          </ul>
+        </li>
+        <li><a href="venta-de-sofom.html">Venta de SOFOM</a></li>
+        <li><a href="recursos-humanos.html">RRHH</a></li>
+        <li><a href="ecosistema.html">Ecosistema</a></li>
+        <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
+      </ul>
+      <button class="burger" aria-label="Menú" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+    </nav>
+  </div>
+</header>
 
 <section class="carousel" id="carousel">
   <div class="slides">
