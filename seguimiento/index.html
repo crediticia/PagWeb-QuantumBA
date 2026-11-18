@@ -44,6 +44,13 @@ summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .areas{list-style:none;margin:8px 0 0;padding:0}
 .areas li{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:4px 0;border-bottom:1px dashed var(--line)}
 .areas li span:first-child{word-break:break-word;min-width:0}
+.emp-a{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.emp-a .msg{font-size:13px;color:var(--bad)}
+button.cap{font:inherit;font-size:13px;font-weight:600;cursor:pointer;border-radius:8px;padding:5px 10px;border:1px solid var(--navy);background:#fff;color:var(--navy)}
+button.cap.cerrar{color:var(--bad);border-color:var(--bad)}
+button.cap:hover{background:#eef2f8}
+button.cap:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+button.cap:disabled{opacity:.55;cursor:default}
 .err{max-width:480px;margin:60px auto;text-align:center}
 .err h1{font-size:20px}
 .hide{display:none!important}
@@ -107,13 +114,31 @@ summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
     return b;
   }
 
+  // Cerrar/abrir captura: POST con el mismo token; tras éxito se vuelve a consultar y repintar.
+  function botonCaptura(e) {
+    var msg = h('span', { class: 'msg', role: 'status' });
+    var abierta = !!e.abierta;
+    var btn = h('button', { type: 'button', class: 'cap ' + (abierta ? 'cerrar' : 'abrir'), text: abierta ? 'Cerrar captura' : 'Abrir captura' });
+    btn.addEventListener('click', function () {
+      if (abierta && !confirm('¿Cerrar la captura de ' + (e.nombre || '') + '? Dejará de aceptar respuestas. Puedes reabrirla cuando quieras.')) return;
+      btn.disabled = true; msg.textContent = '';
+      fetch('/api/seguimiento/empresa/' + encodeURIComponent(e.slug), {
+        method: 'POST', headers: { 'X-Dash-Token': token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ abierta: !abierta }), cache: 'no-store', referrerPolicy: 'no-referrer'
+      }).then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return cargar(); })
+        .catch(function () { btn.disabled = false; msg.textContent = 'No se pudo actualizar. Intenta de nuevo.'; });
+    });
+    return h('div', { class: 'emp-a' }, btn, msg);
+  }
+
   function empresaClima(e) {
     var card = h('div', { class: 'emp' },
       h('div', { class: 'emp-h' },
         h('span', { class: 'nm', text: e.nombre || '' }),
         h('span', { class: 'tag ' + (e.abierta ? 'on' : 'off'), text: e.abierta ? 'Abierta' : 'Cerrada' })),
       h('div', { class: 'emp-n' }, h('span', { text: resumen(e.recibidas, e.esperadas, e.pct) })),
-      barra(e.pct));
+      barra(e.pct),
+      botonCaptura(e));
     var areas = Array.isArray(e.por_area) ? e.por_area.filter(function (a) { return a && num(a.recibidas) > 0; }) : [];
     if (areas.length) {
       var ul = h('ul', { class: 'areas' });
@@ -132,7 +157,8 @@ summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
         h('span', null,
           h('span', { class: 'tag ' + (e.enviado ? 'on' : 'pend'), text: e.enviado ? 'Enviado' : 'Pendiente' }),
           h('span', { class: 'tag ' + (e.abierta ? 'on' : 'off'), text: e.abierta ? 'Abierta' : 'Cerrada' }))),
-      h('div', { class: 'sub', text: 'Diagnóstico NOM-035 · no cuenta en el total' }));
+      h('div', { class: 'sub', text: 'Diagnóstico NOM-035 · no cuenta en el total' }),
+      botonCaptura(e));
   }
 
   function pintar(d) {
@@ -163,10 +189,12 @@ summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   var token = '';
   try { token = decodeURIComponent((location.hash || '').replace(/^#/, '')).trim(); } catch (e) { token = ''; }
   if (!token) return mostrarError();
-  fetch('/api/seguimiento', { headers: { 'X-Dash-Token': token }, cache: 'no-store', referrerPolicy: 'no-referrer' })
-    .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
-    .then(pintar)
-    .catch(mostrarError);
+  function cargar() {
+    return fetch('/api/seguimiento', { headers: { 'X-Dash-Token': token }, cache: 'no-store', referrerPolicy: 'no-referrer' })
+      .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+      .then(pintar);
+  }
+  cargar().catch(mostrarError);
 })();
 </script>
 </body>

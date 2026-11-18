@@ -347,8 +347,12 @@ button:disabled{opacity:.55;cursor:default}
     var edit = h('div', { class: 'hide edit' });
     var btnEd = h('button', { type: 'button', class: 'sec sm', text: 'Editar' });
     btnEd.addEventListener('click', function () { edit.classList.toggle('hide'); });
-    var btnAb = h('button', { type: 'button', class: 'sec sm', text: e.abierta ? 'Cerrar encuesta' : 'Abrir encuesta' });
-    btnAb.addEventListener('click', function () { patch(e.slug, { abierta: !e.abierta }, msg); });
+    var btnAb = h('button', { type: 'button', class: (e.abierta ? 'danger' : 'sec') + ' sm', text: e.abierta ? 'Cerrar captura' : 'Abrir captura' });
+    btnAb.addEventListener('click', function () {
+      if (e.abierta && !confirm('¿Cerrar la captura de ' + e.nombre + '? Dejará de aceptar respuestas. Puedes reabrirla cuando quieras.')) return;
+      btnAb.disabled = true;
+      patch(e.slug, { abierta: !e.abierta }, msg, btnAb);
+    });
     var btnCsv = h('button', { type: 'button', class: 'sec sm', text: 'Descargar CSV' });
     btnCsv.addEventListener('click', function () { descargar(e.slug, btnCsv, msg); });
     box.appendChild(h('div', { class: 'acts' }, btnEd, btnAb, btnCsv));
@@ -373,11 +377,11 @@ button:disabled{opacity:.55;cursor:default}
     return box;
   }
 
-  function patch(slug, cambios, msg) {
+  function patch(slug, cambios, msg, btn) {
     setMsg(msg, 'Guardando…');
     api('PATCH', '/empresas/' + encodeURIComponent(slug), { patch: cambios })
       .then(function () { return cargar(); })
-      .catch(function (er) { if (er.message !== 'sesion') setMsg(msg, 'Error: ' + er.message, 'err'); });
+      .catch(function (er) { if (btn) btn.disabled = false; if (er.message !== 'sesion') setMsg(msg, 'Error: ' + er.message, 'err'); });
   }
 
   function descargar(slug, btn, msg) {
