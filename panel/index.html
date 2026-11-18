@@ -120,11 +120,12 @@ button:disabled{opacity:.55;cursor:default}
   function setMsg(el, text, kind) { el.textContent = text || ''; el.className = 'msg' + (kind ? ' ' + kind : ''); }
 
   // ---- API ----
+  var sesionActiva = false; // true solo tras cargar el panel con sesión válida
   function api(method, path, body) {
     var opt = { method: method, credentials: 'same-origin', headers: {} };
     if (body !== undefined) { opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(body); }
     return fetch(API + path, opt).then(function (r) {
-      if (r.status === 401 && path !== '/login') { showLogin('La sesión expiró. Entra de nuevo.'); throw new Error('sesion'); }
+      if (r.status === 401 && path !== '/login') { showLogin(sesionActiva ? 'La sesión expiró. Entra de nuevo.' : ''); throw new Error('sesion'); }
       return r.text().then(function (t) {
         var d = null; try { d = JSON.parse(t); } catch (e) { /* no-JSON (CSV) */ }
         if (!r.ok) { var er = new Error((d && d.error) || ('http-' + r.status)); er.status = r.status; throw er; }
@@ -135,11 +136,13 @@ button:disabled{opacity:.55;cursor:default}
 
   // ---- vistas ----
   function showLogin(msg) {
+    sesionActiva = false;
     $('vista-app').classList.add('hide'); $('btn-logout').classList.add('hide');
     $('vista-login').classList.remove('hide');
     setMsg($('login-msg'), msg || '', 'err'); $('pw').value = '';
   }
   function showApp() {
+    sesionActiva = true;
     $('vista-login').classList.add('hide'); $('vista-app').classList.remove('hide'); $('btn-logout').classList.remove('hide');
   }
   function cargar() {
@@ -237,7 +240,7 @@ button:disabled{opacity:.55;cursor:default}
       h('div', null, h('h3', { text: c.nombre }), h('div', { class: 'sl', text: c.slug }))));
     card.appendChild(linkRow('Dashboard', urlDash(c.dash_token)));
 
-    var grupos = {}; var orden = [];
+    var grupos = Object.create(null); var orden = [];
     (c.empresas || []).forEach(function (e) {
       var g = e.grupo || ''; if (!(g in grupos)) { grupos[g] = []; orden.push(g); } grupos[g].push(e);
     });
@@ -279,6 +282,7 @@ button:disabled{opacity:.55;cursor:default}
       if (Number.isNaN(e1) || Number.isNaN(l1)) return setMsg(msg, 'Esperados y límite deben ser enteros ≥ 0 (o vacío).', 'err');
       if (!extras.valida()) return setMsg(msg, 'Las preguntas de escala/opción necesitan al menos una opción.', 'err');
       setMsg(msg, 'Creando…');
+      var btnCrear = f.querySelector('button[type=submit]'); btnCrear.disabled = true;
       api('POST', '/cuentas/' + encodeURIComponent(c.slug) + '/empresas', {
         nombre: nombre.value.trim(), grupo: grupo.value.trim(), tipo: tipo.value,
         esperados: e1, limite: l1, areas: areas.valor(), extras: extras.valor()
@@ -294,7 +298,8 @@ button:disabled{opacity:.55;cursor:default}
           var card = document.querySelector('[data-cuenta="' + c.slug + '"]');
           if (card) { var box = h('div', { class: 'edit' }, h('div', { class: 'msg ok', text: 'Empresa creada. Enlace de la encuesta:' }), linkRow('Encuesta', urlEncuesta(slug))); card.appendChild(box); }
         });
-      }).catch(function (er) { if (er.message !== 'sesion') setMsg(msg, 'Error: ' + er.message, 'err'); });
+      }).catch(function (er) { if (er.message !== 'sesion') setMsg(msg, 'Error: ' + er.message, 'err'); })
+        .then(function () { btnCrear.disabled = false; });
     });
     return f;
   }
@@ -375,10 +380,12 @@ button:disabled{opacity:.55;cursor:default}
   $('f-cuenta').addEventListener('submit', function (ev) {
     ev.preventDefault();
     var m = $('app-msg'); setMsg(m, 'Creando…');
+    var btnC = $('f-cuenta').querySelector('button[type=submit]'); btnC.disabled = true;
     api('POST', '/cuentas', { nombre: $('c-nombre').value.trim() }).then(function (r) {
       $('c-nombre').value = '';
       return cargar().then(function () { setMsg(m, 'Cuenta creada. Enlace del dashboard: ' + urlDash(r.data.dash_token), 'ok'); });
-    }).catch(function (er) { if (er.message !== 'sesion') setMsg(m, 'Error: ' + er.message, 'err'); });
+    }).catch(function (er) { if (er.message !== 'sesion') setMsg(m, 'Error: ' + er.message, 'err'); })
+      .then(function () { btnC.disabled = false; });
   });
 
   // ---- arranque: ¿hay sesión? ----

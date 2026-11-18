@@ -160,7 +160,8 @@ summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   }
 
   // Token SOLO del fragmento (nunca query): no viaja en URL al servidor ni a logs.
-  var token = decodeURIComponent((location.hash || '').replace(/^#/, '')).trim();
+  var token = '';
+  try { token = decodeURIComponent((location.hash || '').replace(/^#/, '')).trim(); } catch (e) { token = ''; }
   if (!token) return mostrarError();
   fetch('/api/seguimiento', { headers: { 'X-Dash-Token': token }, cache: 'no-store', referrerPolicy: 'no-referrer' })
     .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
