@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#13275c">
+<title>Panel de administración | Quantum</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png">
+<style>
+:root{--navy:#13275c;--navy2:#1d3a82;--ink:#1c2a39;--mut:#5b6b7b;--line:#dde4ea;--bg:#f3f6f9;--ok:#1b7f4b;--bad:#b3261e;--acc:#0876A6}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;overflow-x:hidden}
+header.top{background:var(--navy);color:#fff}
+header.top .in{max-width:1000px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header.top img{height:30px;display:block}
+header.top .ttl{font-weight:600;letter-spacing:.02em}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+h2{font-size:20px;margin:0 0 12px;color:var(--navy)}
+h3{font-size:16px;margin:0;color:var(--navy)}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;min-width:0}
+.login{max-width:380px;margin:60px auto}
+label{display:block;font-size:13px;font-weight:600;color:var(--mut);margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;padding:9px 10px;border:1px solid #c5d0da;border-radius:8px;background:#fff;color:var(--ink)}
+textarea{resize:vertical;min-height:60px}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--navy);background:var(--navy);color:#fff;padding:8px 14px;font-weight:600}
+button:hover{background:var(--navy2)}
+button.sec{background:#fff;color:var(--navy)}
+button.sec:hover{background:#eef2f8}
+button.sm{padding:5px 10px;font-size:13px}
+button.danger{color:var(--bad);border-color:var(--bad);background:#fff}
+button:disabled{opacity:.55;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.row>*{flex:1 1 140px;min-width:0}
+.row>.fix{flex:0 0 auto}
+.msg{margin:10px 0 0;font-size:14px}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--ok)}
+.cuenta-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.cuenta-h .sl{color:var(--mut);font-size:13px;word-break:break-all}
+.link{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0;font-size:13px}
+.link .lbl{font-weight:600;color:var(--mut)}
+.link code{background:#eef2f8;border-radius:6px;padding:3px 7px;word-break:break-all;flex:1 1 200px;min-width:0}
+.grupo{margin:14px 0 0}
+.grupo>.gt{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:8px;word-break:break-word}
+.emp{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;background:#fbfcfd;min-width:0}
+.emp-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.emp-h .nm{font-weight:600;word-break:break-word}
+.tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:#e6edf7;color:var(--navy);margin-right:6px}
+.tag.on{background:#e1f3e9;color:var(--ok)}.tag.off{background:#fbe5e3;color:var(--bad)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.edit{margin-top:12px;border-top:1px dashed var(--line);padding-top:8px}
+.lst-item{display:flex;gap:8px;margin-bottom:6px;align-items:flex-start}
+.lst-item>input,.lst-item>.xb{flex:1 1 auto;min-width:0}
+.xb{border:1px solid var(--line);border-radius:8px;padding:8px;background:#fff;display:grid;gap:6px}
+.sub{font-size:12px;color:var(--mut)}
+.hide{display:none!important}
+.empty{color:var(--mut);font-style:italic}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <img src="/logo-quantum-blanco.png" alt="Quantum" />
+  <span class="ttl">Panel de administración</span>
+  <button id="btn-logout" class="sec sm hide" type="button">Cerrar sesión</button>
+</div></header>
+<main>
+  <section id="vista-login" class="card login hide">
+    <h2>Acceso</h2>
+    <form id="f-login">
+      <label for="pw">Contraseña</label>
+      <input id="pw" type="password" autocomplete="current-password" required />
+      <div class="acts"><button type="submit">Entrar</button></div>
+      <p id="login-msg" class="msg err" role="alert"></p>
+    </form>
+  </section>
+
+  <section id="vista-app" class="hide">
+    <div class="card">
+      <h2>Nueva cuenta</h2>
+      <form id="f-cuenta" class="row">
+        <div><label for="c-nombre">Nombre de la cuenta</label><input id="c-nombre" maxlength="120" required /></div>
+        <div class="fix"><button type="submit">Crear cuenta</button></div>
+      </form>
+      <p id="app-msg" class="msg" role="status"></p>
+    </div>
+    <div id="cuentas"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var API = '/api/admin';
+  var $ = function (id) { return document.getElementById(id); };
+  var state = { cuentas: [], abiertos: {} };
+
+  // ---- DOM helper: SOLO textContent / atributos; nunca innerHTML con datos ----
+  function h(tag, attrs) {
+    var el = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      var v = attrs[k];
+      if (v == null || v === false) return;
+      if (k === 'text') el.textContent = v;
+      else if (k === 'class') el.className = v;
+      else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), v);
+      else if (k === 'value') el.value = v;
+      else el.setAttribute(k, v === true ? '' : v);
+    });
+    for (var i = 2; i < arguments.length; i++) {
+      var c = arguments[i];
+      if (c == null || c === false) continue;
+      el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    }
+    return el;
+  }
+
+  function setMsg(el, text, kind) { el.textContent = text || ''; el.className = 'msg' + (kind ? ' ' + kind : ''); }
+
+  // ---- API ----
+  function api(method, path, body) {
+    var opt = { method: method, credentials: 'same-origin', headers: {} };
+    if (body !== undefined) { opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(body); }
+    return fetch(API + path, opt).then(function (r) {
+      if (r.status === 401 && path !== '/login') { showLogin('La sesión expiró. Entra de nuevo.'); throw new Error('sesion'); }
+      return r.text().then(function (t) {
+        var d = null; try { d = JSON.parse(t); } catch (e) { /* no-JSON (CSV) */ }
+        if (!r.ok) { var er = new Error((d && d.error) || ('http-' + r.status)); er.status = r.status; throw er; }
+        return { data: d, text: t, res: r };
+      });
+    });
+  }
+
+  // ---- vistas ----
+  function showLogin(msg) {
+    $('vista-app').classList.add('hide'); $('btn-logout').classList.add('hide');
+    $('vista-login').classList.remove('hide');
+    setMsg($('login-msg'), msg || '', 'err'); $('pw').value = '';
+  }
+  function showApp() {
+    $('vista-login').classList.add('hide'); $('vista-app').classList.remove('hide'); $('btn-logout').classList.remove('hide');
+  }
+  function cargar() {
+    return api('GET', '/cuentas').then(function (r) { state.cuentas = r.data.cuentas || []; showApp(); render(); });
+  }
+
+  // ---- utilidades ----
+  function copiar(texto, btn) {
+    function ok() { var o = btn.textContent; btn.textContent = 'Copiado'; setTimeout(function () { btn.textContent = o; }, 1500); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texto).then(ok, fallback);
+    else fallback();
+    function fallback() {
+      var t = h('textarea', { style: 'position:fixed;left:-9999px' }); t.value = texto; document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { /* sin portapapeles */ } t.remove();
+    }
+  }
+  function linkRow(label, url) {
+    var btn = h('button', { type: 'button', class: 'sec sm', text: 'Copiar' });
+    btn.addEventListener('click', function () { copiar(url, btn); });
+    return h('div', { class: 'link' }, h('span', { class: 'lbl', text: label }), h('code', { text: url }), btn);
+  }
+  var urlEncuesta = function (slug) { return location.origin + '/encuesta/?e=' + slug; };
+  var urlDash = function (tok) { return location.origin + '/seguimiento/#' + tok; };
+  function cupo(v) { var s = String(v).trim(); if (s === '') return null; var n = Number(s); return Number.isInteger(n) && n >= 0 ? n : NaN; }
+
+  // ---- editor de listas: áreas ----
+  function areasEditor(inicial) {
+    var cont = h('div'); var items = h('div');
+    function add(v) {
+      var inp = h('input', { maxlength: 120, placeholder: 'Nombre del área', 'data-area': '1', value: v || '' });
+      var rm = h('button', { type: 'button', class: 'danger sm', text: 'Quitar' });
+      var row = h('div', { class: 'lst-item' }, inp, rm);
+      rm.addEventListener('click', function () { row.remove(); });
+      items.appendChild(row);
+    }
+    (inicial || []).forEach(add);
+    cont.appendChild(items);
+    cont.appendChild(h('button', { type: 'button', class: 'sec sm', text: '+ Agregar área', onclick: function () { add(''); } }));
+    cont.valor = function () {
+      return Array.prototype.map.call(items.querySelectorAll('[data-area]'), function (i) { return i.value.trim(); }).filter(Boolean);
+    };
+    return cont;
+  }
+
+  // ---- editor de extras: texto + tipo + opciones ----
+  function extrasEditor(inicial) {
+    var cont = h('div'); var items = h('div'); var usados = {};
+    (inicial || []).forEach(function (x) { usados[x.id] = true; });
+    function nuevoId() { var n = 1; while (usados['x' + n]) n++; usados['x' + n] = true; return 'x' + n; }
+    function add(x) {
+      x = x || { id: nuevoId(), texto: '', tipo: 'escala', opciones: ['1', '2', '3', '4', '5'] };
+      var texto = h('input', { maxlength: 500, placeholder: 'Pregunta', value: x.texto });
+      var tipo = h('select', null,
+        h('option', { value: 'escala', text: 'Escala' }), h('option', { value: 'opcion', text: 'Opción' }), h('option', { value: 'abierta', text: 'Abierta' }));
+      tipo.value = x.tipo;
+      var ops = h('textarea', { placeholder: 'Una opción por línea', 'aria-label': 'Opciones' });
+      ops.value = (x.opciones || []).join('\n');
+      var opsWrap = h('div', null, h('span', { class: 'sub', text: 'Opciones (una por línea)' }), ops);
+      function sync() { opsWrap.classList.toggle('hide', tipo.value === 'abierta'); }
+      tipo.addEventListener('change', sync); sync();
+      var rm = h('button', { type: 'button', class: 'danger sm', text: 'Quitar' });
+      var box = h('div', { class: 'xb' }, texto, tipo, opsWrap);
+      var row = h('div', { class: 'lst-item' }, box, rm);
+      row._get = function () {
+        var o = { id: x.id, texto: texto.value.trim(), tipo: tipo.value };
+        if (tipo.value !== 'abierta') o.opciones = ops.value.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+        return o;
+      };
+      rm.addEventListener('click', function () { row.remove(); });
+      items.appendChild(row);
+    }
+    (inicial || []).forEach(add);
+    cont.appendChild(items);
+    cont.appendChild(h('button', { type: 'button', class: 'sec sm', text: '+ Agregar pregunta extra', onclick: function () { add(null); } }));
+    cont.valor = function () {
+      return Array.prototype.map.call(items.children, function (r) { return r._get(); })
+        .filter(function (e) { return e.texto; });
+    };
+    cont.valida = function () {
+      return cont.valor().every(function (e) { return e.tipo === 'abierta' || (e.opciones && e.opciones.length); });
+    };
+    return cont;
+  }
+
+  // ---- render ----
+  function render() {
+    var root = $('cuentas'); root.textContent = '';
+    if (!state.cuentas.length) { root.appendChild(h('p', { class: 'empty', text: 'Aún no hay cuentas.' })); return; }
+    state.cuentas.forEach(function (c) { root.appendChild(cuentaCard(c)); });
+  }
+
+  function cuentaCard(c) {
+    var card = h('div', { class: 'card', 'data-cuenta': c.slug });
+    card.appendChild(h('div', { class: 'cuenta-h' },
+      h('div', null, h('h3', { text: c.nombre }), h('div', { class: 'sl', text: c.slug }))));
+    card.appendChild(linkRow('Dashboard', urlDash(c.dash_token)));
+
+    var grupos = {}; var orden = [];
+    (c.empresas || []).forEach(function (e) {
+      var g = e.grupo || ''; if (!(g in grupos)) { grupos[g] = []; orden.push(g); } grupos[g].push(e);
+    });
+    if (!orden.length) card.appendChild(h('p', { class: 'empty', text: 'Sin empresas todavía.' }));
+    orden.forEach(function (g) {
+      var box = h('div', { class: 'grupo' }, h('div', { class: 'gt', text: g || 'Sin grupo' }));
+      grupos[g].forEach(function (e) { box.appendChild(empresaCard(e)); });
+      card.appendChild(box);
+    });
+
+    // alta de empresa
+    var fWrap = h('div', { class: 'hide edit' });
+    var btnAlta = h('button', { type: 'button', class: 'sec sm', text: '+ Nueva empresa' });
+    btnAlta.addEventListener('click', function () { fWrap.classList.toggle('hide'); });
+    card.appendChild(h('div', { class: 'acts' }, btnAlta));
+    card.appendChild(fWrap);
+    fWrap.appendChild(altaEmpresaForm(c));
+    return card;
+  }
+
+  function altaEmpresaForm(c) {
+    var nombre = h('input', { maxlength: 120, required: true });
+    var grupo = h('input', { maxlength: 120 });
+    var tipo = h('select', null, h('option', { value: 'clima', text: 'Clima laboral' }), h('option', { value: 'nom035', text: 'NOM-035' }));
+    var esp = h('input', { type: 'number', min: 0, step: 1 });
+    var lim = h('input', { type: 'number', min: 0, step: 1 });
+    var areas = areasEditor([]); var extras = extrasEditor([]);
+    var msg = h('p', { class: 'msg', role: 'status' }); var res = h('div');
+    var f = h('form', null,
+      h('h3', { text: 'Alta de empresa' }),
+      h('div', { class: 'row' }, h('div', null, h('label', { text: 'Nombre' }), nombre), h('div', null, h('label', { text: 'Grupo' }), grupo), h('div', null, h('label', { text: 'Tipo' }), tipo)),
+      h('div', { class: 'row' }, h('div', null, h('label', { text: 'Esperados' }), esp), h('div', null, h('label', { text: 'Límite de respuestas' }), lim)),
+      h('label', { text: 'Áreas' }), areas,
+      h('label', { text: 'Preguntas extra' }), extras,
+      h('div', { class: 'acts' }, h('button', { type: 'submit', text: 'Crear empresa' })), msg, res);
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var e1 = cupo(esp.value), l1 = cupo(lim.value);
+      if (Number.isNaN(e1) || Number.isNaN(l1)) return setMsg(msg, 'Esperados y límite deben ser enteros ≥ 0 (o vacío).', 'err');
+      if (!extras.valida()) return setMsg(msg, 'Las preguntas de escala/opción necesitan al menos una opción.', 'err');
+      setMsg(msg, 'Creando…');
+      api('POST', '/cuentas/' + encodeURIComponent(c.slug) + '/empresas', {
+        nombre: nombre.value.trim(), grupo: grupo.value.trim(), tipo: tipo.value,
+        esperados: e1, limite: l1, areas: areas.valor(), extras: extras.valor()
+      }).then(function (r) {
+        var slug = r.data.slug;
+        setMsg(msg, 'Empresa creada.', 'ok');
+        res.textContent = ''; res.appendChild(linkRow('Encuesta', urlEncuesta(slug)));
+        state.abiertos['nueva:' + c.slug] = slug;
+        return api('GET', '/cuentas').then(function (r2) {
+          state.cuentas = r2.data.cuentas || [];
+          // re-render conservando el enlace recién creado
+          render();
+          var card = document.querySelector('[data-cuenta="' + c.slug + '"]');
+          if (card) { var box = h('div', { class: 'edit' }, h('div', { class: 'msg ok', text: 'Empresa creada. Enlace de la encuesta:' }), linkRow('Encuesta', urlEncuesta(slug))); card.appendChild(box); }
+        });
+      }).catch(function (er) { if (er.message !== 'sesion') setMsg(msg, 'Error: ' + er.message, 'err'); });
+    });
+    return f;
+  }
+
+  function empresaCard(e) {
+    var box = h('div', { class: 'emp', 'data-empresa': e.slug });
+    var head = h('div', { class: 'emp-h' },
+      h('div', null, h('span', { class: 'nm', text: e.nombre }), ' ',
+        h('span', { class: 'tag', text: e.tipo === 'nom035' ? 'NOM-035' : 'Clima' }),
+        h('span', { class: 'tag ' + (e.abierta ? 'on' : 'off'), text: e.abierta ? 'Abierta' : 'Cerrada' }),
+        h('span', { class: 'sub', text: (e.respuestas || 0) + ' respuestas' + (e.esperados != null ? ' / ' + e.esperados + ' esperados' : '') + (e.limite != null ? ' · límite ' + e.limite : '') })));
+    box.appendChild(head);
+    box.appendChild(linkRow('Encuesta', urlEncuesta(e.slug)));
+    var msg = h('p', { class: 'msg', role: 'status' });
+    var edit = h('div', { class: 'hide edit' });
+    var btnEd = h('button', { type: 'button', class: 'sec sm', text: 'Editar' });
+    btnEd.addEventListener('click', function () { edit.classList.toggle('hide'); });
+    var btnAb = h('button', { type: 'button', class: 'sec sm', text: e.abierta ? 'Cerrar encuesta' : 'Abrir encuesta' });
+    btnAb.addEventListener('click', function () { patch(e.slug, { abierta: !e.abierta }, msg); });
+    var btnCsv = h('button', { type: 'button', class: 'sec sm', text: 'Descargar CSV' });
+    btnCsv.addEventListener('click', function () { descargar(e.slug, btnCsv, msg); });
+    box.appendChild(h('div', { class: 'acts' }, btnEd, btnAb, btnCsv));
+    box.appendChild(msg);
+
+    var grupo = h('input', { maxlength: 120, value: e.grupo || '' });
+    var esp = h('input', { type: 'number', min: 0, step: 1, value: e.esperados == null ? '' : e.esperados });
+    var lim = h('input', { type: 'number', min: 0, step: 1, value: e.limite == null ? '' : e.limite });
+    var areas = areasEditor(e.areas); var extras = extrasEditor(e.extras);
+    var f = h('form', null,
+      h('div', { class: 'row' }, h('div', null, h('label', { text: 'Grupo' }), grupo), h('div', null, h('label', { text: 'Esperados' }), esp), h('div', null, h('label', { text: 'Límite' }), lim)),
+      h('label', { text: 'Áreas' }), areas, h('label', { text: 'Preguntas extra' }), extras,
+      h('div', { class: 'acts' }, h('button', { type: 'submit', text: 'Guardar cambios' })));
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var e1 = cupo(esp.value), l1 = cupo(lim.value);
+      if (Number.isNaN(e1) || Number.isNaN(l1)) return setMsg(msg, 'Esperados y límite deben ser enteros ≥ 0 (o vacío).', 'err');
+      if (!extras.valida()) return setMsg(msg, 'Las preguntas de escala/opción necesitan al menos una opción.', 'err');
+      patch(e.slug, { grupo: grupo.value.trim(), esperados: e1, limite: l1, areas: areas.valor(), extras: extras.valor() }, msg);
+    });
+    edit.appendChild(f); box.appendChild(edit);
+    return box;
+  }
+
+  function patch(slug, cambios, msg) {
+    setMsg(msg, 'Guardando…');
+    api('PATCH', '/empresas/' + encodeURIComponent(slug), { patch: cambios })
+      .then(function () { return cargar(); })
+      .catch(function (er) { if (er.message !== 'sesion') setMsg(msg, 'Error: ' + er.message, 'err'); });
+  }
+
+  function descargar(slug, btn, msg) {
+    btn.disabled = true;
+    api('GET', '/export/' + encodeURIComponent(slug)).then(function (r) {
+      var blob = new Blob([r.text], { type: 'text/csv;charset=utf-8' });
+      var a = h('a', { href: URL.createObjectURL(blob), download: slug + '.csv' });
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+      setMsg(msg, 'CSV descargado (' + r.text.length + ' caracteres).', 'ok');
+    }).catch(function (er) { if (er.message !== 'sesion') setMsg(msg, 'Error: ' + er.message, 'err'); })
+      .then(function () { btn.disabled = false; });
+  }
+
+  // ---- eventos globales ----
+  $('f-login').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    setMsg($('login-msg'), 'Entrando…');
+    api('POST', '/login', { password: $('pw').value }).then(function () {
+      $('pw').value = ''; setMsg($('login-msg'), ''); return cargar();
+    }).catch(function (er) {
+      if (er.status === 401) setMsg($('login-msg'), 'Contraseña incorrecta.', 'err');
+      else if (er.status === 429) setMsg($('login-msg'), 'Demasiados intentos. Espera unos minutos.', 'err');
+      else setMsg($('login-msg'), 'No se pudo entrar (' + er.message + ').', 'err');
+    });
+  });
+  $('btn-logout').addEventListener('click', function () {
+    api('POST', '/logout', {}).catch(function () {}).then(function () { showLogin(''); });
+  });
+  $('f-cuenta').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var m = $('app-msg'); setMsg(m, 'Creando…');
+    api('POST', '/cuentas', { nombre: $('c-nombre').value.trim() }).then(function (r) {
+      $('c-nombre').value = '';
+      return cargar().then(function () { setMsg(m, 'Cuenta creada. Enlace del dashboard: ' + urlDash(r.data.dash_token), 'ok'); });
+    }).catch(function (er) { if (er.message !== 'sesion') setMsg(m, 'Error: ' + er.message, 'err'); });
+  });
+
+  // ---- arranque: ¿hay sesión? ----
+  cargar().catch(function (er) { if (er.message !== 'sesion') showLogin(''); });
+})();
+</script>
+</body>
+</html>
