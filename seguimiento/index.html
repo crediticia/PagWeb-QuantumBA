@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<meta name="theme-color" content="#13275c">
+<title>Seguimiento de encuestas | Quantum</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png">
+<style>
+:root{--navy:#13275c;--navy2:#1d3a82;--ink:#1c2a39;--mut:#5b6b7b;--line:#dde4ea;--bg:#f3f6f9;--ok:#1b7f4b;--bad:#b3261e;--acc:#0876A6}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;overflow-x:hidden}
+header.top{background:var(--navy);color:#fff}
+header.top .in{max-width:900px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header.top img{height:30px;display:block}
+header.top .ttl{font-weight:600;letter-spacing:.02em}
+main{max-width:900px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:22px;margin:0 0 4px;color:var(--navy);word-break:break-word}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;min-width:0}
+.big{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin:8px 0 6px}
+.big .num{font-size:26px;font-weight:700;color:var(--navy)}
+.big .pc{font-size:18px;font-weight:600;color:var(--navy)}
+.bar{height:12px;background:#e6edf7;border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--acc);border-radius:99px}
+.bar.over>i{background:var(--ok)}
+.sub{font-size:13px;color:var(--mut)}
+.grupo{margin:22px 0 0}
+.gh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:10px}
+.gh .gt{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);word-break:break-word}
+.gh .gs{font-size:13px;font-weight:600;color:var(--navy)}
+.emp{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;background:#fff;min-width:0}
+.emp-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.emp-h .nm{font-weight:600;word-break:break-word}
+.emp-n{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px;font-size:14px}
+.tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:#e6edf7;color:var(--navy);margin-left:6px}
+.tag.on{background:#e1f3e9;color:var(--ok)}.tag.off{background:#fbe5e3;color:var(--bad)}.tag.pend{background:#fff3d6;color:#8a5a00}
+details{margin-top:10px}
+summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--navy)}
+summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.areas{list-style:none;margin:8px 0 0;padding:0}
+.areas li{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.areas li span:first-child{word-break:break-word;min-width:0}
+.err{max-width:480px;margin:60px auto;text-align:center}
+.err h1{font-size:20px}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <img src="/logo-quantum-blanco.png" alt="Quantum" />
+  <span class="ttl">Seguimiento de encuestas</span>
+</div></header>
+<main>
+  <section id="cargando" class="card sub" role="status">Cargando…</section>
+  <section id="error" class="card err hide" role="alert">
+    <h1>Enlace inválido o vencido</h1>
+    <p class="sub">No se pudo mostrar el seguimiento. Solicita a tu contacto en Quantum un enlace vigente.</p>
+  </section>
+  <section id="app" class="hide"></section>
+</main>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+
+  // DOM helper: SOLO textContent / atributos; nunca innerHTML con datos del servidor.
+  function h(tag, attrs) {
+    var el = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      var v = attrs[k];
+      if (v == null || v === false) return;
+      if (k === 'text') el.textContent = v;
+      else if (k === 'class') el.className = v;
+      else el.setAttribute(k, v === true ? '' : v);
+    });
+    for (var i = 2; i < arguments.length; i++) {
+      var c = arguments[i];
+      if (c == null || c === false) continue;
+      el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    }
+    return el;
+  }
+
+  function mostrarError() {
+    $('cargando').classList.add('hide');
+    $('app').classList.add('hide');
+    $('error').classList.remove('hide');
+  }
+
+  function num(n) { return typeof n === 'number' && isFinite(n) ? n : 0; }
+
+  // "N de M · P%"; sin esperados (M vacío/0) -> solo "N recibidas".
+  function resumen(rec, esp, pct) {
+    if (!esp) return num(rec) + (num(rec) === 1 ? ' recibida' : ' recibidas');
+    return num(rec) + ' de ' + num(esp) + (pct == null ? '' : ' · ' + pct + '%');
+  }
+
+  // Barra: ancho topado a 100% aunque el pct real sea mayor (se muestra honesto en texto).
+  function barra(pct) {
+    var p = pct == null ? 0 : Math.max(0, Math.min(100, pct));
+    var b = h('div', { class: 'bar' + (pct != null && pct > 100 ? ' over' : ''), role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': String(Math.round(p)) },
+      h('i', { style: 'width:' + p + '%' }));
+    return b;
+  }
+
+  function empresaClima(e) {
+    var card = h('div', { class: 'emp' },
+      h('div', { class: 'emp-h' },
+        h('span', { class: 'nm', text: e.nombre || '' }),
+        h('span', { class: 'tag ' + (e.abierta ? 'on' : 'off'), text: e.abierta ? 'Abierta' : 'Cerrada' })),
+      h('div', { class: 'emp-n' }, h('span', { text: resumen(e.recibidas, e.esperadas, e.pct) })),
+      barra(e.pct));
+    var areas = Array.isArray(e.por_area) ? e.por_area.filter(function (a) { return a && num(a.recibidas) > 0; }) : [];
+    if (areas.length) {
+      var ul = h('ul', { class: 'areas' });
+      areas.forEach(function (a) {
+        ul.appendChild(h('li', null, h('span', { text: String(a.area == null ? '' : a.area) }), h('span', { text: String(num(a.recibidas)) })));
+      });
+      card.appendChild(h('details', null, h('summary', { text: 'Ver por área (' + areas.length + ')' }), ul));
+    }
+    return card;
+  }
+
+  function empresaNom(e) {
+    return h('div', { class: 'emp' },
+      h('div', { class: 'emp-h' },
+        h('span', { class: 'nm', text: e.nombre || '' }),
+        h('span', null,
+          h('span', { class: 'tag ' + (e.enviado ? 'on' : 'pend'), text: e.enviado ? 'Enviado' : 'Pendiente' }),
+          h('span', { class: 'tag ' + (e.abierta ? 'on' : 'off'), text: e.abierta ? 'Abierta' : 'Cerrada' }))),
+      h('div', { class: 'sub', text: 'Diagnóstico NOM-035 · no cuenta en el total' }));
+  }
+
+  function pintar(d) {
+    var app = $('app'); app.textContent = '';
+    var t = d.total || {};
+    app.appendChild(h('div', { class: 'card' },
+      h('h1', { text: String(d.cliente == null ? '' : d.cliente) }),
+      h('div', { class: 'sub', text: 'Encuestas de clima laboral recibidas' }),
+      h('div', { class: 'big' }, h('span', { class: 'num', text: resumen(t.recibidas, t.esperadas, null).split(' · ')[0] }),
+        t.esperadas ? h('span', { class: 'pc', text: (t.pct == null ? 0 : t.pct) + '%' }) : null),
+      barra(t.pct)));
+    (Array.isArray(d.grupos) ? d.grupos : []).forEach(function (g) {
+      var sec = h('div', { class: 'grupo' },
+        h('div', { class: 'gh' },
+          h('span', { class: 'gt', text: String(g.grupo == null ? '' : g.grupo) }),
+          h('span', { class: 'gs', text: resumen(g.recibidas, g.esperadas, g.pct) })));
+      (Array.isArray(g.empresas) ? g.empresas : []).forEach(function (e) {
+        sec.appendChild(e.tipo === 'nom035' ? empresaNom(e) : empresaClima(e));
+      });
+      app.appendChild(sec);
+    });
+    $('cargando').classList.add('hide');
+    $('error').classList.add('hide');
+    app.classList.remove('hide');
+  }
+
+  // Token SOLO del fragmento (nunca query): no viaja en URL al servidor ni a logs.
+  var token = decodeURIComponent((location.hash || '').replace(/^#/, '')).trim();
+  if (!token) return mostrarError();
+  fetch('/api/seguimiento', { headers: { 'X-Dash-Token': token }, cache: 'no-store', referrerPolicy: 'no-referrer' })
+    .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+    .then(pintar)
+    .catch(mostrarError);
+})();
+</script>
+</body>
+</html>
