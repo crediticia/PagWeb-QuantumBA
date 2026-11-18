@@ -227,7 +227,7 @@
   var reqNames = [];
   var slug = (new URLSearchParams(location.search).get('e') || '').trim();
 
-  function esc(s){ return String(s).replace(/"/g,'&quot;'); }
+  function escHtml(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
   function render(){
   SECCIONES.forEach(function(sec){
@@ -241,18 +241,18 @@
       var req = (q.req === undefined) ? (q.tipo !== 'abierta') : q.req; // radios requeridos por defecto; abiertas opcionales salvo que se indique
       var reqMark = req ? '<span class="req" title="Obligatoria">*</span>' : '';
       if (q.tipo === 'select'){
-        html += '<div class="q"><label class="qtext" for="'+name+'">'+num+q.t+'</label><select class="cl-select" id="'+name+'" name="'+name+'"><option value="">Selecciona…</option>';
-        q.op.forEach(function(op){ html += '<option value="'+esc(op)+'">'+op+'</option>'; });
+        html += '<div class="q"><label class="qtext" for="'+name+'">'+num+escHtml(q.t)+'</label><select class="cl-select" id="'+name+'" name="'+name+'"><option value="">Selecciona…</option>';
+        q.op.forEach(function(op){ html += '<option value="'+escHtml(op)+'">'+escHtml(op)+'</option>'; });
         html += '</select></div>';
       } else if (q.tipo === 'abierta'){
-        html += '<div class="q form-open"><label class="qtext" for="'+name+'">'+num+q.t+reqMark+'</label>'
+        html += '<div class="q form-open"><label class="qtext" for="'+name+'">'+num+escHtml(q.t)+reqMark+'</label>'
              +  '<textarea id="'+name+'" name="'+name+'"'+(req?' required':'')+'></textarea></div>';
       } else {
         var ops = q.tipo === 'op' ? OP : (q.tipo === 'fr' ? FR : q.op);
-        html += '<div class="q"><span class="qtext">'+num+q.t+reqMark+'</span><div class="opts">';
+        html += '<div class="q"><span class="qtext">'+num+escHtml(q.t)+reqMark+'</span><div class="opts">';
         var check = '<span class="box"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>';
         ops.forEach(function(op){
-          html += '<label><input type="radio" name="'+name+'" value="'+esc(op)+'"'+(req?' required':'')+'>'+check+'<span>'+op+'</span></label>';
+          html += '<label><input type="radio" name="'+name+'" value="'+escHtml(op)+'"'+(req?' required':'')+'>'+check+'<span>'+escHtml(op)+'</span></label>';
         });
         html += '</div></div>';
       }
@@ -291,7 +291,7 @@
   function iniciar(cfg){
     document.getElementById('tituloH1').textContent = 'Encuesta de Clima Laboral · ' + cfg.nombre;
     document.title = 'Encuesta de Clima Laboral · ' + cfg.nombre + ' | Quantum';
-    if (cfg.abierta === false){ mostrar('cerrada'); return; }
+    if (cfg.abierta === false){ mostrar('cerrada'); document.querySelector('.progress-wrap').style.display='none'; return; }
     var areas = Array.isArray(cfg.areas) ? cfg.areas.filter(function(x){ return typeof x === 'string' && x; }) : [];
     var extras = Array.isArray(cfg.extras) ? cfg.extras : [];
     if (areas.length){
@@ -299,10 +299,13 @@
       gen.preguntas.unshift({name:'area', t:'¿En qué área trabajas?', tipo:'select', req:false, op:areas.concat(['Prefiero no responder'])});
     }
     var opin = SECCIONES[SECCIONES.length-2];
+    var usados = {};
     extras.forEach(function(x, i){
       if (typeof x === 'string') x = {texto:x, tipo:'escala'};
       if (!x || !x.texto) return;
-      var id = String(x.id || ('x'+(i+1))).replace(/[^A-Za-z0-9_-]/g,'');
+      var id = String(x.id || '').replace(/[^A-Za-z0-9_-]/g,'') || ('x'+(i+1));
+      while (usados[id]) id = id + '_' + (i+1);
+      usados[id] = true;
       var name = 'extra_' + id;
       if (x.tipo === 'abierta'){
         opin.preguntas.push({name:name, t:x.texto, tipo:'abierta', req:false});
@@ -338,7 +341,7 @@
     var btn = form.querySelector('button[type=submit]');
     btn.disabled = true; btn.textContent = 'Enviando...';
     var datos = {};
-    new FormData(form).forEach(function(v, k){ datos[k] = v; });
+    new FormData(form).forEach(function(v, k){ if (v !== '') datos[k] = v; });
     fetch('/api/encuesta/' + encodeURIComponent(slug), {
       method:'POST',
       body:JSON.stringify(datos),
