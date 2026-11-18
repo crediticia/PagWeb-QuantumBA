@@ -82,6 +82,8 @@ button:disabled{opacity:.55;cursor:default}
       <h2>Nueva cuenta</h2>
       <form id="f-cuenta" class="row">
         <div><label for="c-nombre">Nombre de la cuenta</label><input id="c-nombre" maxlength="120" required /></div>
+        <div><label for="c-cont-nombre">Contacto (recibe el dashboard) — nombre</label><input id="c-cont-nombre" maxlength="120" /></div>
+        <div><label for="c-cont-email">Contacto — correo</label><input id="c-cont-email" type="email" maxlength="160" /></div>
         <div class="fix"><button type="submit">Crear cuenta</button></div>
       </form>
       <p id="app-msg" class="msg" role="status"></p>
@@ -239,6 +241,7 @@ button:disabled{opacity:.55;cursor:default}
     card.appendChild(h('div', { class: 'cuenta-h' },
       h('div', null, h('h3', { text: c.nombre }), h('div', { class: 'sl', text: c.slug }))));
     card.appendChild(linkRow('Dashboard', urlDash(c.dash_token)));
+    card.appendChild(contactoBox(c));
 
     var grupos = Object.create(null); var orden = [];
     (c.empresas || []).forEach(function (e) {
@@ -259,6 +262,33 @@ button:disabled{opacity:.55;cursor:default}
     card.appendChild(fWrap);
     fWrap.appendChild(altaEmpresaForm(c));
     return card;
+  }
+
+  function contactoBox(c) {
+    var ct = c.contacto || { nombre: '', email: '' };
+    var txt = (ct.nombre || ct.email) ? [ct.nombre, ct.email].filter(Boolean).join(' · ') : 'sin contacto';
+    var box = h('div', { class: 'contacto', 'data-contacto': c.slug });
+    var msg = h('p', { class: 'msg', role: 'status' });
+    var edit = h('div', { class: 'hide edit' });
+    var btnEd = h('button', { type: 'button', class: 'sec sm', text: 'Editar contacto' });
+    btnEd.addEventListener('click', function () { edit.classList.toggle('hide'); });
+    box.appendChild(h('div', { class: 'sub' }, 'Contacto: ', h('span', { class: 'ct-txt', text: txt }), ' ', btnEd));
+    var nombre = h('input', { maxlength: 120, value: ct.nombre || '' });
+    var email = h('input', { type: 'email', maxlength: 160, value: ct.email || '' });
+    var f = h('form', null,
+      h('div', { class: 'row' }, h('div', null, h('label', { text: 'Nombre' }), nombre), h('div', null, h('label', { text: 'Correo' }), email)),
+      h('div', { class: 'acts' }, h('button', { type: 'submit', text: 'Guardar contacto' })));
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var btn = f.querySelector('button[type=submit]'); btn.disabled = true;
+      setMsg(msg, 'Guardando…');
+      api('PATCH', '/cuentas/' + encodeURIComponent(c.slug), { patch: { contacto: { nombre: nombre.value.trim(), email: email.value.trim() } } })
+        .then(function () { return cargar(); })
+        .catch(function (er) { if (er.message !== 'sesion') setMsg(msg, 'Error: ' + er.message, 'err'); })
+        .then(function () { btn.disabled = false; });
+    });
+    edit.appendChild(f); box.appendChild(edit); box.appendChild(msg);
+    return box;
   }
 
   function altaEmpresaForm(c) {
@@ -381,8 +411,8 @@ button:disabled{opacity:.55;cursor:default}
     ev.preventDefault();
     var m = $('app-msg'); setMsg(m, 'Creando…');
     var btnC = $('f-cuenta').querySelector('button[type=submit]'); btnC.disabled = true;
-    api('POST', '/cuentas', { nombre: $('c-nombre').value.trim() }).then(function (r) {
-      $('c-nombre').value = '';
+    api('POST', '/cuentas', { nombre: $('c-nombre').value.trim(), contacto: { nombre: $('c-cont-nombre').value.trim(), email: $('c-cont-email').value.trim() } }).then(function (r) {
+      $('c-nombre').value = ''; $('c-cont-nombre').value = ''; $('c-cont-email').value = '';
       return cargar().then(function () { setMsg(m, 'Cuenta creada. Enlace del dashboard: ' + urlDash(r.data.dash_token), 'ok'); });
     }).catch(function (er) { if (er.message !== 'sesion') setMsg(m, 'Error: ' + er.message, 'err'); })
       .then(function () { btnC.disabled = false; });
