@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Encuesta de Clima Laboral | Quantum</title>
-<meta name="description" content="Encuesta de clima laboral y gestión de la unidad, anónima y confidencial. Facilitada por Quantum." />
+<meta name="description" content="Encuesta de clima laboral y gestión de tu área, anónima y confidencial. Facilitada por Quantum." />
 <meta name="robots" content="noindex, nofollow" />
 <link rel="stylesheet" href="/styles.css?v=10" />
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -80,7 +80,7 @@
 <section class="block" style="padding-bottom:0">
   <div class="wrap">
     <div class="cl-intro">
-      <p style="font-size:19px;font-weight:300;color:#3a4a55">Queremos conocer cómo te sientes trabajando actualmente en la unidad y qué cosas podemos mejorar. No hay respuestas buenas o malas: responde de acuerdo con tu experiencia.</p>
+      <p style="font-size:19px;font-weight:300;color:#3a4a55">Queremos conocer cómo te sientes trabajando actualmente en tu área y qué cosas podemos mejorar. No hay respuestas buenas o malas: responde de acuerdo con tu experiencia.</p>
       <div class="cl-note">
         <b>Anónima y confidencial.</b> No se solicitarán nombre, número de empleado ni correo electrónico. Los resultados se revisarán de forma agregada; evita incluir nombres o detalles que permitan identificar a personas en los comentarios. La encuesta toma aproximadamente <b>8–10 minutos</b>.
         <div style="margin-top:12px;font-size:13.5px">
@@ -140,17 +140,17 @@
   // tipo: "op"=opinión, "fr"=frecuencia, "custom"=opciones propias, "abierta"=texto
   var SECCIONES = [
     { titulo:"Sección 1. Liderazgo", preguntas:[
-      {n:1,  t:"Los responsables de la unidad explican claramente lo que tenemos que hacer.", tipo:"op"},
+      {n:1,  t:"Los jefes de tu área explican claramente lo que tenemos que hacer.", tipo:"op"},
       {n:2,  t:"Cuando recibo una instrucción, entiendo claramente qué se espera de mí.", tipo:"op"},
-      {n:3,  t:"Los responsables tratan a las personas con respeto.", tipo:"op"},
+      {n:3,  t:"Los jefes tratan a las personas con respeto.", tipo:"op"},
       {n:4,  t:"Cuando hay un cambio importante, nos explican por qué se hace.", tipo:"op"},
-      {n:5,  t:"Los responsables escuchan cuando los colaboradores tenemos algún problema o preocupación.", tipo:"op"},
+      {n:5,  t:"Los jefes escuchan cuando los colaboradores tenemos algún problema o preocupación.", tipo:"op"},
       {n:6,  t:"Puedo decir que no estoy de acuerdo con algo sin tener problemas por hacerlo.", tipo:"op"},
-      {n:7,  t:"Los responsables cumplen lo que dicen.", tipo:"op"},
+      {n:7,  t:"Los jefes cumplen lo que dicen.", tipo:"op"},
       {n:8,  t:"Cuando recibo una instrucción, la forma en que me la comunican es respetuosa.", tipo:"op"},
       {n:9,  t:"Cuando cometo un error, se me explica cómo corregirlo sin hacerme sentir mal o exhibirme frente a otras personas.", tipo:"op"},
-      {n:10, t:"Desde los cambios recientes en la dirección de la unidad, tengo claridad sobre las prioridades y la forma de trabajar.", tipo:"op"},
-      {n:11, t:"Los responsables dan seguimiento a los problemas que los colaboradores reportamos.", tipo:"op"}
+      {n:10, t:"Desde los cambios recientes en la dirección de tu área, tengo claridad sobre las prioridades y la forma de trabajar.", tipo:"op"},
+      {n:11, t:"Los jefes dan seguimiento a los problemas que los colaboradores reportamos.", tipo:"op"}
     ]},
     { titulo:"Sección 2. Organización y planeación", preguntas:[
       {n:12, t:"Las actividades se organizan con suficiente tiempo.", tipo:"op"},
@@ -162,11 +162,11 @@
       {n:18, t:"La cantidad de trabajo está bien repartida entre las personas.", tipo:"op"},
       {n:19, t:"Las diferentes áreas se ponen de acuerdo para organizar el trabajo.", tipo:"op"},
       {n:20, t:"Cuando algo está mal organizado, se busca una solución.", tipo:"op"},
-      {n:21, t:"En general, considero que la unidad está bien organizada.", tipo:"op"}
+      {n:21, t:"En general, considero que tu área está bien organizada.", tipo:"op"}
     ]},
     { titulo:"Sección 3. Trato y ambiente de trabajo", preguntas:[
       {n:22, t:"En mi área las personas se tratan con respeto.", tipo:"op"},
-      {n:23, t:"Los responsables tratan de manera justa a las personas, sin importar su puesto.", tipo:"op"},
+      {n:23, t:"Los jefes tratan de manera justa a las personas, sin importar su puesto.", tipo:"op"},
       {n:24, t:"Puedo dar mi opinión aunque sea diferente a la de mi jefe o responsable.", tipo:"op"},
       {n:25, t:"He visto que algún colaborador sea tratado de manera que lo haga sentir mal, humillado o intimidado.", tipo:"custom", op:FR_NA},
       {n:26, t:"He sentido que alguna persona me trata de manera irrespetuosa en el trabajo.", tipo:"custom", op:FR_NA},
@@ -200,22 +200,22 @@
     { titulo:"Sección 6. Trabajo entre áreas", preguntas:[
       {n:49, t:"Las diferentes áreas trabajan bien juntas.", tipo:"op"},
       {n:50, t:"Cuando dos o más áreas tienen que ponerse de acuerdo, la comunicación es buena.", tipo:"op"},
-      {n:51, t:"Cuando dos responsables tienen diferentes criterios, se llega a una decisión clara para el equipo.", tipo:"op"},
+      {n:51, t:"Cuando dos jefes tienen diferentes criterios, se llega a una decisión clara para el equipo.", tipo:"op"},
       {n:52, t:"Los colaboradores recibimos información clara cuando una decisión afecta a varias áreas.", tipo:"op"},
       {n:53, t:"La coordinación entre las diferentes áreas ayuda a resolver los problemas de la operación.", tipo:"op"}
     ]},
     { titulo:"Sección 7. Opinión general", preguntas:[
-      {n:54, t:"¿Cómo calificarías el ambiente de trabajo de la unidad?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
-      {n:55, t:"¿Cómo calificarías actualmente la forma en que se dirige la unidad?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
-      {n:56, t:"¿Cómo calificarías la comunicación de los responsables con los colaboradores?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
-      {n:57, t:"¿Qué es lo que más te gusta de trabajar actualmente en esta unidad?", tipo:"abierta", req:false},
-      {n:58, t:"¿Qué es lo que más debería mejorar la unidad?", tipo:"abierta", req:true},
+      {n:54, t:"¿Cómo calificarías el ambiente de trabajo de tu área?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
+      {n:55, t:"¿Cómo calificarías actualmente la forma en que se dirige tu área?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
+      {n:56, t:"¿Cómo calificarías la comunicación de los jefes con los colaboradores?", tipo:"custom", op:["Muy malo","Malo","Bueno","Muy bueno"]},
+      {n:57, t:"¿Qué es lo que más te gusta de trabajar actualmente en tu área?", tipo:"abierta", req:false},
+      {n:58, t:"¿Qué es lo que más debería mejorar tu área?", tipo:"abierta", req:true},
       {n:59, t:"Si pudieras cambiar tres cosas de la forma en que actualmente se trabaja, ¿cuáles cambiarías?", tipo:"abierta", req:true},
       {n:60, t:"¿Hay alguna situación que te preocupe y que consideres importante que la dirección conozca?", tipo:"abierta", req:false},
       {n:61, t:"¿Quieres agregar algún otro comentario?", tipo:"abierta", req:false}
     ]},
     { titulo:"Datos generales (opcionales)", nota:"Estas preguntas son opcionales y nos ayudan a analizar los resultados por grupo, sin identificarte.", preguntas:[
-      {n:62, t:"¿Cuánto tiempo llevas trabajando en la unidad?", tipo:"custom", req:false, op:["Menos de 6 meses","De 6 meses a 1 año","De 1 a 3 años","De 3 a 5 años","Más de 5 años","Prefiero no responder"]},
+      {n:62, t:"¿Cuánto tiempo llevas trabajando en tu área?", tipo:"custom", req:false, op:["Menos de 6 meses","De 6 meses a 1 año","De 1 a 3 años","De 3 a 5 años","Más de 5 años","Prefiero no responder"]},
       {n:63, t:"¿Cuál es tu nivel de puesto?", tipo:"custom", req:false, op:["Operativo","Supervisor / Coordinador","Jefatura / Gerencia","Prefiero no responder"]}
     ]}
   ];
