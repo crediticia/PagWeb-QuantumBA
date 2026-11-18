@@ -298,22 +298,26 @@
       var gen = SECCIONES[SECCIONES.length-1];
       gen.preguntas.unshift({name:'area', t:'¿En qué área trabajas?', tipo:'select', req:false, op:areas.concat(['Prefiero no responder'])});
     }
-    var opin = SECCIONES[SECCIONES.length-2];
     var usados = {};
+    var maxN = 0;
+    SECCIONES.forEach(function(sec){ sec.preguntas.forEach(function(q){ if (q.n && q.n > maxN) maxN = q.n; }); });
+    var extraPregs = [];
     extras.forEach(function(x, i){
       if (typeof x === 'string') x = {texto:x, tipo:'escala'};
       if (!x || !x.texto) return;
       var id = String(x.id || '').replace(/[^A-Za-z0-9_-]/g,'') || ('x'+(i+1));
       while (usados[id]) id = id + '_' + (i+1);
       usados[id] = true;
-      var name = 'extra_' + id;
+      var preg = {name:'extra_'+id, n:(++maxN), t:x.texto, req:false};
       if (x.tipo === 'abierta'){
-        opin.preguntas.push({name:name, t:x.texto, tipo:'abierta', req:false});
+        preg.tipo = 'abierta';
       } else {
-        var ops = Array.isArray(x.opciones) && x.opciones.length ? x.opciones : OP;
-        opin.preguntas.push({name:name, t:x.texto, tipo:'custom', op:ops});
+        preg.tipo = 'custom';
+        preg.op = Array.isArray(x.opciones) && x.opciones.length ? x.opciones : OP;
       }
+      extraPregs.push(preg);
     });
+    if (extraPregs.length){ SECCIONES.push({titulo:'Preguntas adicionales', preguntas:extraPregs}); }
     render();
     form.style.display = '';
     reqNames = requiredNames();
