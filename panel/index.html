@@ -297,6 +297,7 @@ button:disabled{opacity:.55;cursor:default}
     var tipo = h('select', null, h('option', { value: 'clima', text: 'Clima laboral' }), h('option', { value: 'nom035', text: 'NOM-035' }));
     var esp = h('input', { type: 'number', min: 0, step: 1 });
     var lim = h('input', { type: 'number', min: 0, step: 1 });
+    var etiqueta = h('input', { maxlength: 40, placeholder: 'ej. sucursal (vacío = área)' });
     var areas = areasEditor([]); var extras = extrasEditor([]);
     var msg = h('p', { class: 'msg', role: 'status' }); var res = h('div');
     var f = h('form', null,
@@ -304,6 +305,7 @@ button:disabled{opacity:.55;cursor:default}
       h('div', { class: 'row' }, h('div', null, h('label', { text: 'Nombre' }), nombre), h('div', null, h('label', { text: 'Grupo' }), grupo), h('div', null, h('label', { text: 'Tipo' }), tipo)),
       h('div', { class: 'row' }, h('div', null, h('label', { text: 'Esperados' }), esp), h('div', null, h('label', { text: 'Límite de respuestas' }), lim)),
       h('label', { text: 'Áreas' }), areas,
+      h('label', { text: 'Etiqueta de la agrupación' }), etiqueta,
       h('label', { text: 'Preguntas extra' }), extras,
       h('div', { class: 'acts' }, h('button', { type: 'submit', text: 'Crear empresa' })), msg, res);
     f.addEventListener('submit', function (ev) {
@@ -315,7 +317,7 @@ button:disabled{opacity:.55;cursor:default}
       var btnCrear = f.querySelector('button[type=submit]'); btnCrear.disabled = true;
       api('POST', '/cuentas/' + encodeURIComponent(c.slug) + '/empresas', {
         nombre: nombre.value.trim(), grupo: grupo.value.trim(), tipo: tipo.value,
-        esperados: e1, limite: l1, areas: areas.valor(), extras: extras.valor()
+        esperados: e1, limite: l1, areas: areas.valor(), etiqueta_area: etiqueta.value.trim(), extras: extras.valor()
       }).then(function (r) {
         var slug = r.data.slug;
         setMsg(msg, 'Empresa creada.', 'ok');
@@ -358,20 +360,26 @@ button:disabled{opacity:.55;cursor:default}
     box.appendChild(h('div', { class: 'acts' }, btnEd, btnAb, btnCsv));
     box.appendChild(msg);
 
+    var nombre = h('input', { maxlength: 120, value: e.nombre || '' });
     var grupo = h('input', { maxlength: 120, value: e.grupo || '' });
     var esp = h('input', { type: 'number', min: 0, step: 1, value: e.esperados == null ? '' : e.esperados });
     var lim = h('input', { type: 'number', min: 0, step: 1, value: e.limite == null ? '' : e.limite });
+    var etiqueta = h('input', { maxlength: 40, placeholder: 'ej. sucursal (vacío = área)', value: e.etiqueta_area || '' });
     var areas = areasEditor(e.areas); var extras = extrasEditor(e.extras);
     var f = h('form', null,
+      h('label', { text: 'Nombre' }), nombre,
       h('div', { class: 'row' }, h('div', null, h('label', { text: 'Grupo' }), grupo), h('div', null, h('label', { text: 'Esperados' }), esp), h('div', null, h('label', { text: 'Límite' }), lim)),
-      h('label', { text: 'Áreas' }), areas, h('label', { text: 'Preguntas extra' }), extras,
+      h('label', { text: 'Áreas' }), areas,
+      h('label', { text: 'Etiqueta de la agrupación' }), etiqueta,
+      h('label', { text: 'Preguntas extra' }), extras,
       h('div', { class: 'acts' }, h('button', { type: 'submit', text: 'Guardar cambios' })));
     f.addEventListener('submit', function (ev) {
       ev.preventDefault();
+      if (!nombre.value.trim()) return setMsg(msg, 'El nombre no puede quedar vacío.', 'err');
       var e1 = cupo(esp.value), l1 = cupo(lim.value);
       if (Number.isNaN(e1) || Number.isNaN(l1)) return setMsg(msg, 'Esperados y límite deben ser enteros ≥ 0 (o vacío).', 'err');
       if (!extras.valida()) return setMsg(msg, 'Las preguntas de escala/opción necesitan al menos una opción.', 'err');
-      patch(e.slug, { grupo: grupo.value.trim(), esperados: e1, limite: l1, areas: areas.valor(), extras: extras.valor() }, msg);
+      patch(e.slug, { nombre: nombre.value.trim(), grupo: grupo.value.trim(), esperados: e1, limite: l1, areas: areas.valor(), etiqueta_area: etiqueta.value.trim(), extras: extras.valor() }, msg);
     });
     edit.appendChild(f); box.appendChild(edit);
     return box;

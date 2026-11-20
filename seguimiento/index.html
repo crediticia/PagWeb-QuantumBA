@@ -141,11 +141,14 @@ button.cap:disabled{opacity:.55;cursor:default}
       botonCaptura(e));
     var areas = Array.isArray(e.por_area) ? e.por_area.filter(function (a) { return a && num(a.recibidas) > 0; }) : [];
     if (areas.length) {
+      var etqArea = (e.etiqueta_area && String(e.etiqueta_area).trim()) ? String(e.etiqueta_area).trim() : 'área';
       var ul = h('ul', { class: 'areas' });
       areas.forEach(function (a) {
-        ul.appendChild(h('li', null, h('span', { text: String(a.area == null ? '' : a.area) }), h('span', { text: String(num(a.recibidas)) })));
+        var nombre = a.area == null ? '' : String(a.area);
+        if (nombre === 'sin área') nombre = 'sin ' + etqArea;
+        ul.appendChild(h('li', null, h('span', { text: nombre }), h('span', { text: String(num(a.recibidas)) })));
       });
-      card.appendChild(h('details', null, h('summary', { text: 'Ver por área (' + areas.length + ')' }), ul));
+      card.appendChild(h('details', null, h('summary', { text: 'Ver por ' + etqArea + ' (' + areas.length + ')' }), ul));
     }
     return card;
   }

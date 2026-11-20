@@ -241,7 +241,7 @@
       var req = (q.req === undefined) ? (q.tipo !== 'abierta') : q.req; // radios requeridos por defecto; abiertas opcionales salvo que se indique
       var reqMark = req ? '<span class="req" title="Obligatoria">*</span>' : '';
       if (q.tipo === 'select'){
-        html += '<div class="q"><label class="qtext" for="'+name+'">'+num+escHtml(q.t)+'</label><select class="cl-select" id="'+name+'" name="'+name+'"><option value="">Selecciona…</option>';
+        html += '<div class="q"><label class="qtext" for="'+name+'">'+num+escHtml(q.t)+reqMark+'</label><select class="cl-select" id="'+name+'" name="'+name+'"'+(req?' required':'')+'><option value="">Selecciona…</option>';
         q.op.forEach(function(op){ html += '<option value="'+escHtml(op)+'">'+escHtml(op)+'</option>'; });
         html += '</select></div>';
       } else if (q.tipo === 'abierta'){
@@ -295,8 +295,11 @@
     var areas = Array.isArray(cfg.areas) ? cfg.areas.filter(function(x){ return typeof x === 'string' && x; }) : [];
     var extras = Array.isArray(cfg.extras) ? cfg.extras : [];
     if (areas.length){
-      var gen = SECCIONES[SECCIONES.length-1];
-      gen.preguntas.unshift({name:'area', t:'¿En qué área trabajas?', tipo:'select', req:false, op:areas.concat(['Prefiero no responder'])});
+      var etqArea = (typeof cfg.etiqueta_area === 'string' && cfg.etiqueta_area.trim()) ? cfg.etiqueta_area.trim() : 'área';
+      var tituloArea = etqArea.charAt(0).toUpperCase() + etqArea.slice(1);
+      SECCIONES.unshift({ titulo: tituloArea, nota:'Antes de empezar, selecciona tu '+etqArea+'. Es obligatorio para continuar.', preguntas:[
+        {name:'area', t:'¿En qué '+etqArea+' trabajas?', tipo:'select', req:true, op:areas.slice()}
+      ]});
     }
     var usados = {};
     var maxN = 0;
